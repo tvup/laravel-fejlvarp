@@ -52,9 +52,19 @@ class IncidentController
     public function geoip(Request $request) : Response
     {
         $ip = $request->query('ip');
+        switch (gettype($ip)) {
+            case 'array':
+                $ip = $ip[0];
+                break;
+            case 'string':
+                $ip = explode(',', $ip)[0];
+                break;
+            case 'null':
+                throw new \Exception('IP wasn\'t provided in query');
+            default:
+                throw new \Exception('IP wasn\'t provided in query is illegal. Type of input was: ' . gettype($ip));
+        }
         $callback = $request->query('callback');
-        $parts = explode(',', $ip);
-        $ip = $parts[0];
 
         $data = null;
         if (!$this->ip_in_range($ip, '10.0.0.0/8') && !$this->ip_in_range($ip, '172.16.0.0/12') && !$this->ip_in_range($ip, '192.168.0.0/16')) {
@@ -62,6 +72,9 @@ class IncidentController
             $data = cache()->remember('ip-' . $ip, $seconds, function () use ($ip) {
                 $url = 'http://api.ipstack.com/' . rawurlencode($ip) . '?access_key=' . $this->ipStackAccessKey;
                 $json = file_get_contents($url);
+                if($json === false) {
+                    throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json: ' . $json);
+                }
 
                 return json_decode($json, true);
             });
@@ -73,7 +86,7 @@ class IncidentController
 
         header('Content-Type: text/javascript');
         $content = !empty($response) ? json_encode($response) : null;
-        if (isset($callback)) {
+        if (isset($callback) && gettype($callback)=='string') {
             return response($callback . '(' . ($content ?: '{}') . ');');
         } else {
             return response($content ?: '{}');
@@ -83,6 +96,15 @@ class IncidentController
     public function useragent(Request $request) : Response
     {
         $useragent = $request->query('useragent');
+        switch (gettype($useragent)) {
+            case 'string':
+                break;
+            case 'null':
+                throw new \Exception('IP wasn\'t provided in query');
+            case 'array':
+            default:
+                throw new \Exception('IP wasn\'t provided in query is illegal. Type of input was: ' . gettype($useragent));
+        }
         $callback = $request->query('callback');
         $url = 'http://www.useragentstring.com/?getJSON=all&uas=' . rawurlencode($useragent);
         $opts = [
@@ -100,6 +122,9 @@ class IncidentController
         ];
         $context = stream_context_create($opts);
         $raw = file_get_contents($url, false, $context);
+        if($raw === false) {
+            throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json: ' . $raw);
+        }
         $data = json_decode($raw, true);
         $response = [];
         $response['name'] = $data['agent_name'];
@@ -107,10 +132,13 @@ class IncidentController
         $response['info'] = implode(' / ', array_filter(array_values($data)));
         header('Content-Type: text/javascript');
         $content = json_encode($response);
-        if (isset($callback)) {
+        if($content === false) {
+            throw new \Exception('Content couldn\'t be encoded as json: ' . implode(', ', $response));
+        }
+        if (isset($callback) && gettype($callback)=='string') {
             return response($callback . '(' . $content . ');');
         } else {
-            return response ($content);
+            return response($content);
         }
     }
 
