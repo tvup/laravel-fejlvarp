@@ -27,5 +27,10 @@ class Incident extends Model
 
     public $incrementing = false;
 
+    /**
+     * @var string[]
+     *
+     * Casts for json-format
+     */
     protected $casts = ['data' => 'array'];
 }
