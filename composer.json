@@ -1,6 +1,5 @@
 {
     "name": "tvup/laravel-fejlvarp",
-    "version": "v9.0.0-aplha",
     "description": "Simple incident logger for Laravel",
     "keywords": [
         "laravel",
