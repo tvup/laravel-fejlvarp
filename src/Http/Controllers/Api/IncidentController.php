@@ -164,6 +164,12 @@ class IncidentController
             $incident->save();
         });
 
+        if(null === $incident) {
+            //This shouldn't happen - at least I can figure out how it would happen. But Larastan complaints about
+            //method fejlvarp_notify receiving null for $incident, so I'll just comply
+            throw new \Exception('The incident retrieved or attempted to save failed');
+        }
+
         if ($notification) {
             $this->fejlvarp_notify($notification, $incident);
         }
