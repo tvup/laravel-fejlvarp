@@ -1,17 +1,18 @@
 includes:
+- ./vendor/nunomaduro/larastan/extension.neon
 
 parameters:
     paths:
-        - src
-        - config
-        - database
+        - src/
+        - config/
+        - database/
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
     checkMissingIterableValueType: false
 
     # Level 9 is the highest level
-    level: 1
+    level: 2
 
     ignoreErrors: # All these errors are weird to fix. We will do that lastly,
 #        - '#cache invoked with#'
