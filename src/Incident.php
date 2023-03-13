@@ -19,6 +19,8 @@ class Incident extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['hash'];
+
     protected $connection = 'app_api_no_prefix';
 
     protected $primaryKey = 'hash';

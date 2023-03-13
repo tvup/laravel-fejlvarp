@@ -2,9 +2,10 @@
 
 namespace Tvup\LaravelFejlVarp\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use PDO;
 use Tvup\LaravelFejlVarp\Http\Requests\IncidentStoreRequest;
 use Tvup\LaravelFejlVarp\Incident;
 
@@ -21,8 +22,6 @@ class IncidentController
 
     private mixed $slack_webhook_url;
 
-    private PDO $db;
-
     private $ipStackAccessKey;
 
     private string $server_name;
@@ -35,9 +34,6 @@ class IncidentController
         $this->pushover_userkey = $this->config['pushover']['userkey'];
         $this->slack_webhook_url = $this->config['slack']['webhook_url'];
         $this->ipStackAccessKey = $this->config['ipstack']['access_key'];
-        $dsn = 'mysql:host=' . config('database.connections.app_api_no_prefix.host') . (config('database.connections.app_api_no_prefix.port') ? ':' . config('database.connections.app_api_no_prefix.port') : '') . ';dbname=' . config('database.connections.app_api_no_prefix.database');
-        $this->db = new PDO($dsn, config('database.connections.app_api_no_prefix.username'), config('database.connections.app_api_no_prefix.password'));
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     public function store(IncidentStoreRequest $request)
@@ -115,43 +111,37 @@ class IncidentController
 
     private function fejlvarp_log($hash, $subject, $data)
     {
-        $this->db->beginTransaction();
-        $q = $this->db->prepare('SELECT hash, resolved_at FROM incidents WHERE hash = :hash');
-        $q->execute([':hash' => $hash]);
-        $row = $q->fetch();
         $notification = null;
-        if ($row) {
-            if ($row['resolved_at']) {
+        $incident = null;
+
+        DB::transaction(function () use (&$notification, &$incident, $hash, $subject, $data) {
+            /** @var Incident $incident */
+            $incident = Incident::firstOrNew(['hash' => $hash]);
+
+            if ($incident->exists && $incident->resolved_at) {
                 $notification = 'REOPEN';
+            } else {
+                $notification = 'NEW';
             }
-            $q = $this->db->prepare('UPDATE incidents SET occurrences = occurrences + 1, last_seen_at = NOW(), resolved_at = null, subject = :subject, data = :data WHERE hash = :hash');
-            $q->execute(
-                [
-                    ':subject' => $subject,
-                    ':data' => $data,
-                    ':hash' => $hash]
-            );
-        } else {
-            $notification = 'NEW';
-            $q = $this->db->prepare('INSERT INTO incidents (hash, subject, data, occurrences, created_at, last_seen_at) VALUES (:hash, :subject, :data, 1, NOW(), NOW())');
-            $q->execute(
-                [
-                    ':hash' => $hash,
-                    ':subject' => $subject,
-                    ':data' => $data]
-            );
-        }
-        $this->db->commit();
+
+            $incident->last_seen_at = Carbon::now('Europe/Copenhagen');
+            $incident->subject = $subject;
+            $incident->data = json_decode($data, true);
+            $incident->occurrences = $incident->exists ? $incident->occurrences + 1 : 1;
+            $incident->save();
+
+        });
+
         if ($notification) {
-            $this->fejlvarp_notify($notification, $this->fejlvarp_find_incident($hash));
+            $this->fejlvarp_notify($notification, $incident);
         }
     }
 
-    private function fejlvarp_notify($notification, $row)
+    private function fejlvarp_notify($notification, $incident)
     {
-        $title = "[$notification] " . $row['subject'];
-        $msg = var_export($row, true);
-        $uri = $this->server_name . '/' . rawurlencode($row['hash']);
+        $title = "[$notification] " . $incident->subject;
+        $msg = var_export($incident, true);
+        $uri = $this->server_name . '/' . rawurlencode($incident->hash);
         $this->notify_mail($title, $msg, $uri);
         $this->notify_pushover($title, $msg, $uri);
         $this->notify_slack($title, $msg, $uri);
@@ -198,20 +188,6 @@ class IncidentController
             ]);
             curl_exec($curl);
         }
-    }
-
-    private function fejlvarp_find_incident($hash)
-    {
-        Incident::whereHash($hash)->firstOrFail();
-        $q = $this->db->prepare('SELECT * FROM incidents WHERE hash = :hash');
-        $q->execute([':hash' => $hash]);
-        $row = $q->fetch(PDO::FETCH_ASSOC);
-        $decoded = json_decode($row['data'], true);
-        if ($decoded) {
-            $row['data'] = $decoded;
-        }
-
-        return $row;
     }
 
     /**

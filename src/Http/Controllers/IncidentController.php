@@ -49,7 +49,7 @@ class IncidentController extends \App\Http\Controllers\Controller
         /** @var Incident $incident */
         $incident = Incident::whereHash($hash)->firstOrFail();
         $incident->resolved_at = Carbon::now('Europe/Copenhagen');
-
+        $incident->save();
         return back();
     }
 
