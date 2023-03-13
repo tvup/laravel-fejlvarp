@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $hash
  * @property string $subject
- * @property string $data
+ * @property array|null $data
  * @property int $occurrences
  * @property Carbon $last_seen_at
  * @property Carbon $resolved_at

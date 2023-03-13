@@ -33,13 +33,13 @@ class IncidentController extends \App\Http\Controllers\Controller
     {
         $incident = $this->fejlvarp_find_incident($hash);
         $geoip = null;
-        if (isset($incident['data']['environment']['SERVER']['HTTP_X_FORWARDED_FOR'])) {
-            $geoip = $incident['data']['environment']['SERVER']['HTTP_X_FORWARDED_FOR'];
-        } elseif (isset($incident['data']['environment']['SERVER']['REMOTE_ADDR'])) {
-            $geoip = $incident['data']['environment']['SERVER']['REMOTE_ADDR'];
+        if (null !== $incident->data && isset($incident->data['environment']['SERVER']['HTTP_X_FORWARDED_FOR'])) {
+            $geoip = $incident->data['environment']['SERVER']['HTTP_X_FORWARDED_FOR'];
+        } elseif (null !== $incident->data && isset($incident->data['environment']['SERVER']['REMOTE_ADDR'])) {
+            $geoip = $incident->data['environment']['SERVER']['REMOTE_ADDR'];
         }
 
-        $user_agent = $incident['data']['environment']['SERVER']['HTTP_USER_AGENT'] ?? null;
+        $user_agent = $incident->data['environment']['SERVER']['HTTP_USER_AGENT'] ?? null;
 
         return view('laravelfejlvarp::incidents.show', ['incident' => $incident, 'server_name' => $this->server_name, 'user_agent' => $user_agent, 'geoip' => $geoip]);
     }

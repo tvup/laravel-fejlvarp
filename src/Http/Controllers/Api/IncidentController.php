@@ -5,6 +5,7 @@ namespace Tvup\LaravelFejlVarp\Http\Controllers\Api;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Tvup\LaravelFejlVarp\Http\Requests\IncidentStoreRequest;
@@ -12,28 +13,22 @@ use Tvup\LaravelFejlVarp\Incident;
 
 class IncidentController
 {
-    /**
-     * @var \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
-     */
-    private mixed $config;
-
     private mixed $pushover_apitoken;
 
     private mixed $pushover_userkey;
 
     private mixed $slack_webhook_url;
 
-    private string $ipStackAccessKey;
+    private mixed $ipStackAccessKey;
 
     private string $server_name;
 
     public function __construct()
     {
-        $this->config = config('laravelfejlvarp');
         $this->server_name = config('app.url') . '/incidents';
-        $this->pushover_apitoken = $this->config['pushover']['apitoken'];
-        $this->pushover_userkey = $this->config['pushover']['userkey'];
-        $this->slack_webhook_url = $this->config['slack']['webhook_url'];
+        $this->pushover_apitoken = config('laravelfejlvarp.pushover.apitoken');
+        $this->pushover_userkey = config('laravelfejlvarp.pushover.userkey');
+        $this->slack_webhook_url = config('laravelfejlvarp.slack.webhook_url');
         if(null === config('laravelfejlvarp.ipstack.access_key')) {
             throw new \Exception('Access key for ipstack wasn\'t set in config');
         }
@@ -43,8 +38,8 @@ class IncidentController
 
     public function store(IncidentStoreRequest $request) : Response
     {
-        ['hash' => $hash, 'subject' => $subject, 'data' => $data] = $request->validated();
-        $this->fejlvarp_log($hash, Str::substr($subject, 0, 255), $data);
+        $validated = (array) $request->validated();
+        $this->fejlvarp_log(strval($validated['hash']), Str::substr(strval($validated['subject']), 0, 255), strval($validated['data']));
 
         return response('OK', 200);
     }
@@ -69,7 +64,7 @@ class IncidentController
         $data = null;
         if (!$this->ip_in_range($ip, '10.0.0.0/8') && !$this->ip_in_range($ip, '172.16.0.0/12') && !$this->ip_in_range($ip, '192.168.0.0/16')) {
             $seconds = 60 * 60 * 24 * 30;
-            $data = cache()->remember('ip-' . $ip, $seconds, function () use ($ip) {
+            $data = (array) Cache::remember('ip-' . $ip, $seconds, function () use ($ip) {
                 $url = 'http://api.ipstack.com/' . rawurlencode($ip) . '?access_key=' . $this->ipStackAccessKey;
                 $json = file_get_contents($url);
                 if($json === false) {
@@ -125,7 +120,7 @@ class IncidentController
         if($raw === false) {
             throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json: ' . $raw);
         }
-        $data = json_decode($raw, true);
+        $data = (array) json_decode($raw, true);
         $response = [];
         $response['name'] = $data['agent_name'];
         $response['type'] = $data['agent_type'];
@@ -159,7 +154,8 @@ class IncidentController
 
             $incident->last_seen_at = Carbon::now('Europe/Copenhagen');
             $incident->subject = $subject;
-            $incident->data = json_decode($data, true);
+            $data = json_decode($data, true);
+            $incident->data = gettype($data) === 'array' ? $data : null;
             $incident->occurrences = $incident->exists ? $incident->occurrences + 1 : 1;
             $incident->save();
         });
