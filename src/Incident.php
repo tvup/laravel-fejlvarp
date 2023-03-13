@@ -2,6 +2,7 @@
 
 namespace Tvup\LaravelFejlVarp;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,7 +29,7 @@ class Incident extends Model
     public $incrementing = false;
 
     /**
-     * @var string[]
+     * @var array<string, string>
      *
      * Casts for json-format
      */
