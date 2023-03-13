@@ -2,8 +2,8 @@
 
 namespace Tvup\LaravelFejlVarp\View\Components;
 
-use Tvup\LaravelFejlVarp\Incident;
 use Illuminate\View\Component;
+use Tvup\LaravelFejlVarp\Incident;
 
 class Ago extends Component
 {

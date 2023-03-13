@@ -2,10 +2,9 @@
 
 namespace Tvup\LaravelFejlVarp;
 
-use Tvup\LaravelFejlVarp\View\Components\Ago;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Tvup\LaravelFejlVarp\Commands\LaravelFejlVarpCommand;
+use Tvup\LaravelFejlVarp\View\Components\Ago;
 
 class LaravelFejlVarpServiceProvider extends PackageServiceProvider
 {

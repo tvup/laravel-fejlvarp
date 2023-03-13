@@ -2,11 +2,11 @@
 
 namespace Tvup\LaravelFejlVarp\Http\Controllers\Api;
 
-use Tvup\LaravelFejlVarp\Http\Requests\IncidentStoreRequest;
-use Tvup\LaravelFejlVarp\Incident;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PDO;
+use Tvup\LaravelFejlVarp\Http\Requests\IncidentStoreRequest;
+use Tvup\LaravelFejlVarp\Incident;
 
 class IncidentController
 {

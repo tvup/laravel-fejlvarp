@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Tvup\\LaravelFejlVarp\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Tvup\\LaravelFejlVarp\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 

@@ -3,8 +3,8 @@
 namespace Tvup\LaravelFejlVarp\Http\Controllers;
 
 use Carbon\Carbon;
-use Tvup\LaravelFejlVarp\Incident;
 use Illuminate\Http\Request;
+use Tvup\LaravelFejlVarp\Incident;
 
 class IncidentController extends \App\Http\Controllers\Controller
 {
@@ -49,6 +49,7 @@ class IncidentController extends \App\Http\Controllers\Controller
         /** @var Incident $incident */
         $incident = Incident::whereHash($hash)->firstOrFail();
         $incident->resolved_at = Carbon::now('Europe/Copenhagen');
+
         return back();
     }
 
