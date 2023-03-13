@@ -2,21 +2,24 @@
 
 namespace Tvup\LaravelFejlVarp\View\Components;
 
+use Carbon\Carbon;
 use Illuminate\View\Component;
 use Tvup\LaravelFejlVarp\Incident;
 
 class Ago extends Component
 {
-    public $created;
+    public string $created;
 
-    public $last_seen_at;
+    public string $last_seen_at;
 
     /**
      * Create a new component instance.
      *
+     * @param string $hash
+     *
      * @return void
      */
-    public function __construct($hash)
+    public function __construct(string $hash)
     {
         $incident = Incident::whereHash($hash)->firstOrFail();
 
@@ -38,10 +41,10 @@ class Ago extends Component
 
     /**
      * @param int $now
-     * @param $input
+     * @param Carbon $input
      * @return string
      */
-    public function getStr(int $now, $input): string
+    public function getStr(int $now, Carbon $input): string
     {
         $periods = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year', 'decade'];
         $lengths = ['60', '60', '24', '7', '4.35', '12', '10'];

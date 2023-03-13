@@ -4,6 +4,7 @@ namespace Tvup\LaravelFejlVarp\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Tvup\LaravelFejlVarp\Http\Requests\IncidentStoreRequest;
@@ -22,7 +23,7 @@ class IncidentController
 
     private mixed $slack_webhook_url;
 
-    private $ipStackAccessKey;
+    private string $ipStackAccessKey;
 
     private string $server_name;
 
@@ -33,10 +34,14 @@ class IncidentController
         $this->pushover_apitoken = $this->config['pushover']['apitoken'];
         $this->pushover_userkey = $this->config['pushover']['userkey'];
         $this->slack_webhook_url = $this->config['slack']['webhook_url'];
-        $this->ipStackAccessKey = $this->config['ipstack']['access_key'];
+        if(null === config('laravelfejlvarp.ipstack.access_key')) {
+            throw new \Exception('Access key for ipstack wasn\'t set in config');
+        }
+        $this->ipStackAccessKey = config('laravelfejlvarp.ipstack.access_key');
+
     }
 
-    public function store(IncidentStoreRequest $request)
+    public function store(IncidentStoreRequest $request) : Response
     {
         ['hash' => $hash, 'subject' => $subject, 'data' => $data] = $request->validated();
         $this->fejlvarp_log($hash, Str::substr($subject, 0, 255), $data);
@@ -44,7 +49,7 @@ class IncidentController
         return response('OK', 200);
     }
 
-    public function geoip(Request $request)
+    public function geoip(Request $request) : Response
     {
         $ip = $request->query('ip');
         $callback = $request->query('callback');
@@ -69,13 +74,13 @@ class IncidentController
         header('Content-Type: text/javascript');
         $content = !empty($response) ? json_encode($response) : null;
         if (isset($callback)) {
-            echo $callback . '(' . ($content ?: '{}') . ');';
+            return response($callback . '(' . ($content ?: '{}') . ');');
         } else {
-            echo $content ?: '{}';
+            return response($content ?: '{}');
         }
     }
 
-    public function useragent(Request $request)
+    public function useragent(Request $request) : Response
     {
         $useragent = $request->query('useragent');
         $callback = $request->query('callback');
@@ -103,13 +108,13 @@ class IncidentController
         header('Content-Type: text/javascript');
         $content = json_encode($response);
         if (isset($callback)) {
-            echo $callback . '(' . $content . ');';
+            return response($callback . '(' . $content . ');');
         } else {
-            echo $content;
+            return response ($content);
         }
     }
 
-    private function fejlvarp_log($hash, $subject, $data)
+    private function fejlvarp_log(string $hash, string $subject, string $data) : void
     {
         $notification = null;
         $incident = null;
@@ -136,24 +141,24 @@ class IncidentController
         }
     }
 
-    private function fejlvarp_notify($notification, $incident)
+    private function fejlvarp_notify(string $notification, Incident $incident) : void
     {
         $title = "[$notification] " . $incident->subject;
         $msg = var_export($incident, true);
         $uri = $this->server_name . '/' . rawurlencode($incident->hash);
         $this->notify_mail($title, $msg, $uri);
         $this->notify_pushover($title, $msg, $uri);
-        $this->notify_slack($title, $msg, $uri);
+        $this->notify_slack($title, $uri);
     }
 
-    private function notify_mail($title, $msg, $uri)
+    private function notify_mail(string $title, string $msg, string $uri) : void
     {
         if (isset($this->mail_recipient) && $this->mail_recipient) {
             mail($this->mail_recipient, $title, "An incident has occurred. Once you have resolved the issue, please visit the following link and mark it as such:\n\n" . $uri . "\n\n------------\n\n" . $msg);
         }
     }
 
-    private function notify_pushover($title, $msg, $uri)
+    private function notify_pushover(string $title, string $msg, string $uri) : void
     {
         // https://pushover.net/api
         if (isset($this->pushover_apitoken) && $this->pushover_apitoken) {
@@ -174,7 +179,7 @@ class IncidentController
         }
     }
 
-    private function notify_slack($title, $msg, $uri)
+    private function notify_slack(string $title, string $uri) : void
     {
         if (isset($this->slack_webhook_url) && $this->slack_webhook_url) {
             $curl = curl_init();
