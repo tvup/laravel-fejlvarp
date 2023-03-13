@@ -82,6 +82,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 - [Torben Evald Hansen](https://github.com/tvup)
+- [Troels Knak-Nielsen](https://github.com/troelskn)
 - [All Contributors](../../contributors)
 
 ## License
