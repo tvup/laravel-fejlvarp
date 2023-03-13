@@ -2,6 +2,7 @@
 
 namespace Tvup\LaravelFejlVarp\Http\Controllers;
 
+use Carbon\Carbon;
 use Tvup\LaravelFejlVarp\Incident;
 use Illuminate\Http\Request;
 
