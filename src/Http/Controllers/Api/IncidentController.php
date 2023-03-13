@@ -129,7 +129,6 @@ class IncidentController
             $incident->data = json_decode($data, true);
             $incident->occurrences = $incident->exists ? $incident->occurrences + 1 : 1;
             $incident->save();
-
         });
 
         if ($notification) {

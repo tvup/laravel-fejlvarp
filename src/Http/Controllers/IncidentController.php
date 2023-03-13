@@ -50,6 +50,7 @@ class IncidentController extends \App\Http\Controllers\Controller
         $incident = Incident::whereHash($hash)->firstOrFail();
         $incident->resolved_at = Carbon::now('Europe/Copenhagen');
         $incident->save();
+
         return back();
     }
 
