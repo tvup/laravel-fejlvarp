@@ -29,11 +29,10 @@ class IncidentController
         $this->pushover_apitoken = config('laravelfejlvarp.pushover.apitoken');
         $this->pushover_userkey = config('laravelfejlvarp.pushover.userkey');
         $this->slack_webhook_url = config('laravelfejlvarp.slack.webhook_url');
-        if(null === config('laravelfejlvarp.ipstack.access_key')) {
+        if (null === config('laravelfejlvarp.ipstack.access_key')) {
             throw new \Exception('Access key for ipstack wasn\'t set in config');
         }
         $this->ipStackAccessKey = config('laravelfejlvarp.ipstack.access_key');
-
     }
 
     public function store(IncidentStoreRequest $request) : Response
@@ -67,7 +66,7 @@ class IncidentController
             $data = (array) Cache::remember('ip-' . $ip, $seconds, function () use ($ip) {
                 $url = 'http://api.ipstack.com/' . rawurlencode($ip) . '?access_key=' . $this->ipStackAccessKey;
                 $json = file_get_contents($url);
-                if($json === false) {
+                if ($json === false) {
                     throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json: ' . $json);
                 }
 
@@ -81,7 +80,7 @@ class IncidentController
 
         header('Content-Type: text/javascript');
         $content = !empty($response) ? json_encode($response) : null;
-        if (isset($callback) && gettype($callback)=='string') {
+        if (isset($callback) && gettype($callback) == 'string') {
             return response($callback . '(' . ($content ?: '{}') . ');');
         } else {
             return response($content ?: '{}');
@@ -117,7 +116,7 @@ class IncidentController
         ];
         $context = stream_context_create($opts);
         $raw = file_get_contents($url, false, $context);
-        if($raw === false) {
+        if ($raw === false) {
             throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json: ' . $raw);
         }
         $data = (array) json_decode($raw, true);
@@ -127,10 +126,10 @@ class IncidentController
         $response['info'] = implode(' / ', array_filter(array_values($data)));
         header('Content-Type: text/javascript');
         $content = json_encode($response);
-        if($content === false) {
+        if ($content === false) {
             throw new \Exception('Content couldn\'t be encoded as json: ' . implode(', ', $response));
         }
-        if (isset($callback) && gettype($callback)=='string') {
+        if (isset($callback) && gettype($callback) == 'string') {
             return response($callback . '(' . $content . ');');
         } else {
             return response($content);
@@ -146,7 +145,7 @@ class IncidentController
             /** @var Incident $incident */
             $incident = Incident::firstOrNew(['hash' => $hash]);
 
-            if ($incident->exists && $incident->resolved_at!==null) {
+            if ($incident->exists && $incident->resolved_at !== null) {
                 $notification = 'REOPEN';
             } else {
                 $notification = 'NEW';
@@ -160,7 +159,7 @@ class IncidentController
             $incident->save();
         });
 
-        if(null === $incident) {
+        if (null === $incident) {
             //This shouldn't happen - at least I can figure out how it would happen. But Larastan complaints about
             //method fejlvarp_notify receiving null for $incident, so I'll just comply
             throw new \Exception('The incident retrieved or attempted to save failed');

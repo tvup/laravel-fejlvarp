@@ -4,7 +4,6 @@ namespace Tvup\LaravelFejlVarp\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Translation\Translator;
 
 class ApiRequest extends FormRequest
 {
