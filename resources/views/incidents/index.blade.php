@@ -7,6 +7,10 @@
             font-size: 12px;
         }
 
+        input[type=submit] {
+            border-width: 1px;
+        }
+
         body {
             -webkit-text-size-adjust: none;
             margin: 0;
