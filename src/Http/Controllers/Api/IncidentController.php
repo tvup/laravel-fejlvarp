@@ -206,7 +206,7 @@ class IncidentController
         list($range, $netmask) = explode('/', $range, 2);
         $range_decimal = ip2long($range);
         $ip_decimal = ip2long($ip);
-        if(is_numeric($netmask)) {
+        if (is_numeric($netmask)) {
             throw new \Exception('Netmask isn\'t numeric: ' . $netmask);
         }
         $wildcard_decimal = pow(2, (32 - ((int) $netmask))) - 1;
