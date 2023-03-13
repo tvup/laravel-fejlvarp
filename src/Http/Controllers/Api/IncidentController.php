@@ -194,6 +194,8 @@ class IncidentController
      * @param string $ip IP to check in IPV4 format eg. 127.0.0.1
      * @param string $range IP/CIDR netmask eg. 127.0.0.0/24, also 127.0.0.1 is accepted and /32 assumed
      * @return bool true if the ip is in this range / false if not.
+     *
+     * @throws \Exception
      */
     private function ip_in_range($ip, $range)
     {
@@ -204,6 +206,9 @@ class IncidentController
         list($range, $netmask) = explode('/', $range, 2);
         $range_decimal = ip2long($range);
         $ip_decimal = ip2long($ip);
+        if(is_numeric($netmask)) {
+            throw new \Exception('Netmask isn\'t numeric: ' . $netmask);
+        }
         $wildcard_decimal = pow(2, (32 - ((int) $netmask))) - 1;
         $netmask_decimal = ~$wildcard_decimal;
 
