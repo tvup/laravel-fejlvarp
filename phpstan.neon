@@ -12,7 +12,7 @@ parameters:
     checkMissingIterableValueType: false
 
     # Level 9 is the highest level
-    level: 3
+    level: 4
 
     ignoreErrors: # All these errors are weird to fix. We will do that lastly,
 #        - '#cache invoked with#'

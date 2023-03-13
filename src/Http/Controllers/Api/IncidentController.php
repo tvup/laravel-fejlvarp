@@ -118,7 +118,7 @@ class IncidentController
             /** @var Incident $incident */
             $incident = Incident::firstOrNew(['hash' => $hash]);
 
-            if ($incident->exists && $incident->resolved_at) {
+            if ($incident->exists && $incident->resolved_at!==null) {
                 $notification = 'REOPEN';
             } else {
                 $notification = 'NEW';
