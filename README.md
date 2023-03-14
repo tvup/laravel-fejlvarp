@@ -52,8 +52,24 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'ipstack' => ['access_key' => env('INCIDENT_MANAGER_IPSTACK_ACCESS_KEY')],
+
+    'pushover' => [
+        'userkey' => env('INCIDENT_MANAGER_PUSHOVER_USER_KEY'),
+        'apitoken' => env('INCIDENT_MANAGER_PUSHOVER_API_TOKEN'),
+    ],
+
+    'slack' => [
+        'webhook_url' => env('INCIDENT_MANAGER_SLACK_WEBHOOK_URL'),
+    ],
+
+    'mail_recipient' => env('INCIDENT_MANAGER_EMAIL_RECIPIENT'),
 ];
 ```
+
+ipstack is used to get info about ip-addresses - you can retrieve an access key here: https://ipstack.com/signup/free
+
+Pushover/slakc/mail is used to inform about new og reopened incidents
 
 Optionally, you can publish the views using
 
