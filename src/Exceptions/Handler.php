@@ -94,7 +94,7 @@ class Handler extends ExceptionHandler
                 ],
             ], JSON_THROW_ON_ERROR),
         ];
-        $myRequest  = Request::create('/api/incidents', 'POST', $data, [], [], ['CONTENT_TYPE'=>'application/x-www-form-urlencoded']);
+        $myRequest = Request::create('/api/incidents', 'POST', $data, [], [], ['CONTENT_TYPE'=>'application/x-www-form-urlencoded']);
 
         app()->handle($myRequest);
     }
