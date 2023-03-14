@@ -4,7 +4,7 @@ namespace Tvup\LaravelFejlvarp\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param \Throwable $exception
      * @return Response
      */
@@ -94,7 +94,7 @@ class Handler extends ExceptionHandler
                 ],
             ], JSON_THROW_ON_ERROR),
         ];
-        $myRequest = \Illuminate\Http\Request::create('/api/incidents', 'POST', $data, [], [], ['CONTENT_TYPE'=>'application/x-www-form-urlencoded']);
+        $myRequest  = Request::create('/api/incidents', 'POST', $data, [], [], ['CONTENT_TYPE'=>'application/x-www-form-urlencoded']);
 
         app()->handle($myRequest);
     }
