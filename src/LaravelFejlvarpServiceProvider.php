@@ -1,13 +1,12 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp;
+namespace Tvup\LaravelFejlvarp;
 
-use Tvup\LaravelFejlVarp\View\Components\Ago;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Tvup\LaravelFejlVarp\Commands\LaravelFejlVarpCommand;
+use Tvup\LaravelFejlvarp\View\Components\Ago;
 
-class LaravelFejlVarpServiceProvider extends PackageServiceProvider
+class LaravelFejlvarpServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -17,11 +16,11 @@ class LaravelFejlVarpServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('laravelfejlvarp')
+            ->name('laravel-fejlvarp')
             ->hasConfigFile()
             ->hasViews()
-            ->hasViewComponents('laravelfejlvarp', Ago::class)
+            ->hasViewComponents('laravel-fejlvarp', Ago::class)
             ->hasRoutes(['web', 'api'])
-            ->hasMigration('create_laravelfejlvarp_table');
+            ->hasMigration('create_incidents_table');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-// config for Tvup/LaravelFejlVarp
+// config for Tvup/LaravelFejlvarp
 return [
     'ipstack' => ['access_key' => env('INCIDENT_MANAGER_IPSTACK_ACCESS_KEY')],
 

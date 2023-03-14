@@ -1,12 +1,12 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp\Commands;
+namespace Tvup\LaravelFejlvarp\Commands;
 
 use Illuminate\Console\Command;
 
-class LaravelFejlVarpCommand extends Command
+class LaravelFejlvarpCommand extends Command
 {
-    public $signature = 'laravelfejlvarp';
+    public $signature = 'laravel-fejlvarp';
 
     public $description = 'My command';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp\Http\Requests;
+namespace Tvup\LaravelFejlvarp\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -19,7 +19,7 @@ class ApiRequest extends FormRequest
 
     public function failedValidation(Validator $validator)
     {
-        throw new \Exception(trans($validator->errors()->first()));
+        throw new \Exception(strval(trans($validator->errors()->first())));
     }
 
     protected function failedAuthorization()

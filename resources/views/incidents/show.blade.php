@@ -7,6 +7,17 @@
             font-size: 12px;
         }
 
+        input[type=submit] {
+            border-width: 1px;
+            border-color: rgb(118, 118, 118);
+            border-radius: 2px;
+            line-height: normal;
+            padding: 1px 6px;
+            color: rgb(0,0,0);
+            font-family: "Monaco", "Courier New", monospace;
+            font-size: 12px;
+        }
+
         body {
             -webkit-text-size-adjust: none;
             margin: 0;
@@ -154,8 +165,8 @@
     <div id="page-header">
         <p><a href="{{ route('incidents.index') }}"><span style="font-weight:bold;font-size:32px;line-height:8px;">&larr;</span>
                 List all incidents</a></p>
-        <h1> {!! $incident['subject'] !!}
-            @if($incident['resolved_at'])
+        <h1> {!! $incident->subject !!}
+            @if($incident->resolved_at)
                 <span class="resolved">RESOLVED</span>
             @else
                 <span class="open">OPEN</span>
@@ -164,8 +175,8 @@
     </div>
 
     <div class="page-content">
-        @if(!$incident['resolved_at'])
-            <form method="POST" action="{{ route('incident.delete' , ['hash' => $incident['hash']]) }}">
+        @if(!$incident->resolved_at)
+            <form method="POST" action="{{ route('incident.delete' , ['hash' => $incident->hash]) }}">
                 @csrf
                 <div class="action">
                     <p>If the incident has been resolved, please mark it by pressing this button:</p>
@@ -186,33 +197,33 @@
             @endforeach
             </tbody>
         </table>
-        @if(isset($incident['data']['error']['type']))
+        @if(isset($incident->data['error']['type']))
             <h2>Error Details</h2>
             <table class="definitionlist">
                 <tbody>
                 @foreach(['type', 'code', 'file', 'line'] as $name)
-                    @if(isset($incident['data']['error'][$name]))
+                    @if(isset($incident->data['error'][$name]))
                         <tr>
                             <th> {!! $name !!}</th>
-                            <td>{!! $incident['data']['error'][$name] !!}</td>
+                            <td>{!! $incident->data['error'][$name] !!}</td>
                         </tr>
                     @endif
                 @endforeach
                 </tbody>
             </table>
             <h2>Trace</h2>
-            <pre>{!! $incident['data']['error']['trace'] !!}</pre>
+            <pre>{!! $incident->data['error']['trace'] !!}</pre>
         @endif
 
-        @if(isset($incident['data']['environment']['SERVER']))
+        @if(isset($incident->data['environment']['SERVER']))
             <h2>Request Synopsis</h2>
             <table class="definitionlist">
                 <tbody>
                 @foreach(['HTTP_HOST', 'REQUEST_URI', 'SERVER_ADDR', 'HTTP_REFERER'] as $name)
-                    @if(isset($incident['data']['environment']['SERVER'][$name]))
+                    @if(isset($incident->data['environment']['SERVER'][$name]))
                         <tr>
                             <th>{!! $name !!}</th>
-                            <td>{!! $incident['data']['environment']['SERVER'][$name] !!}</td>
+                            <td>{!! $incident->data['environment']['SERVER'][$name] !!}</td>
                         </tr>
                     @endif
                 @endforeach
@@ -236,15 +247,15 @@
         @endif
 
 
-        @if (isset($incident['data']['environment']))
+        @if (isset($incident->data['environment']))
             <h2>Request Context</h2>
-            <pre>{!! var_export($incident['data']['environment'], true) !!}</pre>
+            <pre>{!! var_export($incident->data['environment'], true) !!}</pre>
         @endif
 
-        @if (!isset($incident['data']['error']['type']) && !isset($incident['data']['environment']))
+        @if (!isset($incident->data['error']['type']) && !isset($incident->data['environment']))
             {
             <h2>Data</h2>
-            <pre>{!! var_export($incident['data'], true) !!}</pre>
+            <pre>{!! var_export($incident->data, true) !!}</pre>
         @endif
 
     </div>

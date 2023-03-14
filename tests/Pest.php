@@ -1,5 +1,5 @@
 <?php
 
-use Tvup\LaravelFejlVarp\Tests\TestCase;
+use Tvup\LaravelFejlvarp\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

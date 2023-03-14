@@ -1,10 +1,10 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp\Tests;
+namespace Tvup\LaravelFejlvarp\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Tvup\LaravelFejlVarp\LaravelFejlVarpServiceProvider;
+use Tvup\LaravelFejlvarp\LaravelFejlvarpServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -13,14 +13,14 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Tvup\\LaravelFejlVarp\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Tvup\\LaravelFejlvarp\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            LaravelFejlVarpServiceProvider::class,
+            LaravelFejlvarpServiceProvider::class,
         ];
     }
 

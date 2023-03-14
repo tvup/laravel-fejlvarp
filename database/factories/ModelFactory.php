@@ -1,6 +1,6 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp\Database\Factories;
+namespace Tvup\LaravelFejlvarp\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

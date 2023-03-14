@@ -7,10 +7,8 @@ coverage
 docs
 phpunit.xml
 phpunit.xml.dist
-phpstan.neon
 phpstan-baseline.neon
 phpstan.neon.dist
 testbench.yaml
 vendor
 node_modules
-.php_cs.dist.php

@@ -1,66 +1,74 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp\Http\Controllers\Api;
+namespace Tvup\LaravelFejlvarp\Http\Controllers\Api;
 
-use Tvup\LaravelFejlVarp\Http\Requests\IncidentStoreRequest;
-use Tvup\LaravelFejlVarp\Incident;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use PDO;
+use Tvup\LaravelFejlvarp\Http\Requests\IncidentStoreRequest;
+use Tvup\LaravelFejlvarp\Incident;
 
 class IncidentController
 {
-    /**
-     * @var \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
-     */
-    private mixed $config;
-
     private mixed $pushover_apitoken;
 
     private mixed $pushover_userkey;
 
     private mixed $slack_webhook_url;
 
-    private PDO $db;
-
-    private $ipStackAccessKey;
+    private mixed $ipStackAccessKey;
 
     private string $server_name;
 
     public function __construct()
     {
-        $this->config = config('laravelfejlvarp');
         $this->server_name = config('app.url') . '/incidents';
-        $this->pushover_apitoken = $this->config['pushover']['apitoken'];
-        $this->pushover_userkey = $this->config['pushover']['userkey'];
-        $this->slack_webhook_url = $this->config['slack']['webhook_url'];
-        $this->ipStackAccessKey = $this->config['ipstack']['access_key'];
-        $dsn = 'mysql:host=' . config('database.connections.app_api_no_prefix.host') . (config('database.connections.app_api_no_prefix.port') ? ':' . config('database.connections.app_api_no_prefix.port') : '') . ';dbname=' . config('database.connections.app_api_no_prefix.database');
-        $this->db = new PDO($dsn, config('database.connections.app_api_no_prefix.username'), config('database.connections.app_api_no_prefix.password'));
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->pushover_apitoken = config('fejlvarp.pushover.apitoken');
+        $this->pushover_userkey = config('fejlvarp.pushover.userkey');
+        $this->slack_webhook_url = config('fejlvarp.slack.webhook_url');
+        if (null === config('fejlvarp.ipstack.access_key')) {
+            throw new \Exception('Access key for ipstack wasn\'t set in config');
+        }
+        $this->ipStackAccessKey = config('fejlvarp.ipstack.access_key');
     }
 
-    public function store(IncidentStoreRequest $request)
+    public function store(IncidentStoreRequest $request) : Response
     {
-        ['hash' => $hash, 'subject' => $subject, 'data' => $data] = $request->validated();
-        $this->fejlvarp_log($hash, Str::substr($subject, 0, 255), $data);
+        $validated = (array) $request->validated();
+        $this->fejlvarp_log(strval($validated['hash']), Str::substr(strval($validated['subject']), 0, 255), strval($validated['data']));
 
         return response('OK', 200);
     }
 
-    public function geoip(Request $request)
+    public function geoip(Request $request) : Response
     {
         $ip = $request->query('ip');
+        switch (gettype($ip)) {
+            case 'array':
+                $ip = $ip[0];
+                break;
+            case 'string':
+                $ip = explode(',', $ip)[0];
+                break;
+            case 'null':
+                throw new \Exception('IP wasn\'t provided in query');
+            default:
+                throw new \Exception('IP wasn\'t provided in query is illegal. Type of input was: ' . gettype($ip));
+        }
         $callback = $request->query('callback');
-        $parts = explode(',', $ip);
-        $ip = $parts[0];
 
         $data = null;
         if (!$this->ip_in_range($ip, '10.0.0.0/8') && !$this->ip_in_range($ip, '172.16.0.0/12') && !$this->ip_in_range($ip, '192.168.0.0/16')) {
             $seconds = 60 * 60 * 24 * 30;
-            $data = cache()->remember('ip-' . $ip, $seconds, function () use ($ip) {
+            $data = (array) Cache::remember('ip-' . $ip, $seconds, function () use ($ip) {
                 $url = 'http://api.ipstack.com/' . rawurlencode($ip) . '?access_key=' . $this->ipStackAccessKey;
                 $json = file_get_contents($url);
+                if ($json === false) {
+                    throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json: ' . $json);
+                }
 
                 return json_decode($json, true);
             });
@@ -72,16 +80,25 @@ class IncidentController
 
         header('Content-Type: text/javascript');
         $content = !empty($response) ? json_encode($response) : null;
-        if (isset($callback)) {
-            echo $callback . '(' . ($content ?: '{}') . ');';
+        if (isset($callback) && gettype($callback) == 'string') {
+            return response($callback . '(' . ($content ?: '{}') . ');');
         } else {
-            echo $content ?: '{}';
+            return response($content ?: '{}');
         }
     }
 
-    public function useragent(Request $request)
+    public function useragent(Request $request) : Response
     {
         $useragent = $request->query('useragent');
+        switch (gettype($useragent)) {
+            case 'string':
+                break;
+            case 'null':
+                throw new \Exception('IP wasn\'t provided in query');
+            case 'array':
+            default:
+                throw new \Exception('IP wasn\'t provided in query is illegal. Type of input was: ' . gettype($useragent));
+        }
         $callback = $request->query('callback');
         $url = 'http://www.useragentstring.com/?getJSON=all&uas=' . rawurlencode($useragent);
         $opts = [
@@ -99,72 +116,78 @@ class IncidentController
         ];
         $context = stream_context_create($opts);
         $raw = file_get_contents($url, false, $context);
-        $data = json_decode($raw, true);
+        if ($raw === false) {
+            throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json: ' . $raw);
+        }
+        $data = (array) json_decode($raw, true);
         $response = [];
         $response['name'] = $data['agent_name'];
         $response['type'] = $data['agent_type'];
         $response['info'] = implode(' / ', array_filter(array_values($data)));
         header('Content-Type: text/javascript');
         $content = json_encode($response);
-        if (isset($callback)) {
-            echo $callback . '(' . $content . ');';
+        if ($content === false) {
+            throw new \Exception('Content couldn\'t be encoded as json: ' . implode(', ', $response));
+        }
+        if (isset($callback) && gettype($callback) == 'string') {
+            return response($callback . '(' . $content . ');');
         } else {
-            echo $content;
+            return response($content);
         }
     }
 
-    private function fejlvarp_log($hash, $subject, $data)
+    private function fejlvarp_log(string $hash, string $subject, string $data) : void
     {
-        $this->db->beginTransaction();
-        $q = $this->db->prepare('SELECT hash, resolved_at FROM incidents WHERE hash = :hash');
-        $q->execute([':hash' => $hash]);
-        $row = $q->fetch();
         $notification = null;
-        if ($row) {
-            if ($row['resolved_at']) {
+        $incident = null;
+
+        DB::transaction(function () use (&$notification, &$incident, $hash, $subject, $data) {
+            /** @var Incident $incident */
+            $incident = Incident::firstOrNew(['hash' => $hash]);
+
+            if ($incident->exists && $incident->resolved_at !== null) {
                 $notification = 'REOPEN';
+            } else {
+                $notification = 'NEW';
             }
-            $q = $this->db->prepare('UPDATE incidents SET occurrences = occurrences + 1, last_seen_at = NOW(), resolved_at = null, subject = :subject, data = :data WHERE hash = :hash');
-            $q->execute(
-                [
-                    ':subject' => $subject,
-                    ':data' => $data,
-                    ':hash' => $hash]
-            );
-        } else {
-            $notification = 'NEW';
-            $q = $this->db->prepare('INSERT INTO incidents (hash, subject, data, occurrences, created_at, last_seen_at) VALUES (:hash, :subject, :data, 1, NOW(), NOW())');
-            $q->execute(
-                [
-                    ':hash' => $hash,
-                    ':subject' => $subject,
-                    ':data' => $data]
-            );
+
+            $incident->last_seen_at = Carbon::now('Europe/Copenhagen');
+            $incident->subject = $subject;
+            $data = json_decode($data, true);
+            $incident->data = gettype($data) === 'array' ? $data : null;
+            $incident->occurrences = $incident->exists ? $incident->occurrences + 1 : 1;
+            $incident->save();
+        });
+
+        if (null === $incident) {
+            //This shouldn't happen - at least I can figure out how it would happen. But Larastan complaints about
+            //method fejlvarp_notify receiving null for $incident, so I'll just comply
+            throw new \Exception('The incident retrieved or attempted to save failed');
         }
-        $this->db->commit();
+
         if ($notification) {
-            $this->fejlvarp_notify($notification, $this->fejlvarp_find_incident($hash));
+            $this->fejlvarp_notify($notification, $incident);
         }
     }
 
-    private function fejlvarp_notify($notification, $row)
+    private function fejlvarp_notify(string $notification, Incident $incident) : void
     {
-        $title = "[$notification] " . $row['subject'];
-        $msg = var_export($row, true);
-        $uri = $this->server_name . '/' . rawurlencode($row['hash']);
+        $title = "[$notification] " . $incident->subject;
+        $msg = var_export($incident, true);
+        $uri = $this->server_name . '/' . rawurlencode($incident->hash);
         $this->notify_mail($title, $msg, $uri);
         $this->notify_pushover($title, $msg, $uri);
-        $this->notify_slack($title, $msg, $uri);
+        $this->notify_slack($title, $uri);
     }
 
-    private function notify_mail($title, $msg, $uri)
+    private function notify_mail(string $title, string $msg, string $uri) : void
     {
         if (isset($this->mail_recipient) && $this->mail_recipient) {
             mail($this->mail_recipient, $title, "An incident has occurred. Once you have resolved the issue, please visit the following link and mark it as such:\n\n" . $uri . "\n\n------------\n\n" . $msg);
         }
     }
 
-    private function notify_pushover($title, $msg, $uri)
+    private function notify_pushover(string $title, string $msg, string $uri) : void
     {
         // https://pushover.net/api
         if (isset($this->pushover_apitoken) && $this->pushover_apitoken) {
@@ -185,7 +208,7 @@ class IncidentController
         }
     }
 
-    private function notify_slack($title, $msg, $uri)
+    private function notify_slack(string $title, string $uri) : void
     {
         if (isset($this->slack_webhook_url) && $this->slack_webhook_url) {
             $curl = curl_init();
@@ -200,25 +223,13 @@ class IncidentController
         }
     }
 
-    private function fejlvarp_find_incident($hash)
-    {
-        Incident::whereHash($hash)->firstOrFail();
-        $q = $this->db->prepare('SELECT * FROM incidents WHERE hash = :hash');
-        $q->execute([':hash' => $hash]);
-        $row = $q->fetch(PDO::FETCH_ASSOC);
-        $decoded = json_decode($row['data'], true);
-        if ($decoded) {
-            $row['data'] = $decoded;
-        }
-
-        return $row;
-    }
-
     /**
      * Check if a given ip is in a network.
      * @param string $ip IP to check in IPV4 format eg. 127.0.0.1
      * @param string $range IP/CIDR netmask eg. 127.0.0.0/24, also 127.0.0.1 is accepted and /32 assumed
      * @return bool true if the ip is in this range / false if not.
+     *
+     * @throws \Exception
      */
     private function ip_in_range($ip, $range)
     {
@@ -229,7 +240,10 @@ class IncidentController
         list($range, $netmask) = explode('/', $range, 2);
         $range_decimal = ip2long($range);
         $ip_decimal = ip2long($ip);
-        $wildcard_decimal = pow(2, (32 - $netmask)) - 1;
+        if (is_numeric($netmask)) {
+            throw new \Exception('Netmask isn\'t numeric: ' . $netmask);
+        }
+        $wildcard_decimal = pow(2, (32 - ((int) $netmask))) - 1;
         $netmask_decimal = ~$wildcard_decimal;
 
         return ($ip_decimal & $netmask_decimal) == ($range_decimal & $netmask_decimal);

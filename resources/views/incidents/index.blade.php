@@ -7,6 +7,17 @@
             font-size: 12px;
         }
 
+        input[type=submit] {
+            border-width: 1px;
+            border-color: rgb(118, 118, 118);
+            border-radius: 2px;
+            line-height: normal;
+            padding: 1px 6px;
+            color: rgb(0,0,0);
+            font-family: "Monaco", "Courier New", monospace;
+            font-size: 12px;
+        }
+
         body {
             -webkit-text-size-adjust: none;
             margin: 0;
@@ -182,23 +193,25 @@
                 @foreach ($incidents as $incident)
                     <tr>
                         <td class="nobreak">
-                            @if($incident['resolved_at'])
+                            @if($incident->resolved_at !== null)
                                 <span class="resolved">RESOLVED</span>
                             @else
                                 <span class="open">OPEN</span>
                             @endif
                         </td>
                         <td>
-                            <a href="/incidents/{!! rawurlencode($incident['hash']) !!}">{!! $incident['subject'] !!}</a>
+                            <a href="/incidents/{!! rawurlencode($incident->hash) !!}">{!! $incident->subject !!}</a>
                         </td>
-                        <x-laravelfejlvarp-ago :hash="$incident['hash']" class="mt-4"/>
-                        <td class="nobreak">{{ $incident['occurrences'] }}</td>
+                        <x-laravelfejlvarp-ago :hash="$incident->hash" class="mt-4"/>
+                        <td class="nobreak">{{ $incident->occurrences }}</td>
 
                         <td class="nobreak">
-                            <form method="POST" action="{{ route('incident.delete' , ['hash' => $incident['hash']]) }}">
+                            @if($incident->resolved_at === null)
+                            <form method="POST" action="{{ route('incident.delete' , ['hash' => $incident->hash]) }}">
                                 @csrf
                                 <input type="submit" value="Mark Resolved"/>
                             </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
