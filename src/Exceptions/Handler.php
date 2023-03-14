@@ -77,7 +77,7 @@ class Handler extends ExceptionHandler
             'hash' => md5($hash),
             'subject' => $exception->getMessage() ? $exception->getMessage() : 'Subject is empty',
             'data' => json_encode([
-                'application' => 'BroBizz API-Test',
+                'application' => config('app.name'),
                 'error' => [
                     'type' => get_class($exception),
                     'message' => $exception->getMessage(),
