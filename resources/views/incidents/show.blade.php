@@ -7,6 +7,17 @@
             font-size: 12px;
         }
 
+        input[type=submit] {
+            border-width: 1px;
+            border-color: rgb(118, 118, 118);
+            border-radius: 2px;
+            line-height: normal;
+            padding: 1px 6px;
+            color: rgb(0,0,0);
+            font-family: "Monaco", "Courier New", monospace;
+            font-size: 12px;
+        }
+
         body {
             -webkit-text-size-adjust: none;
             margin: 0;
