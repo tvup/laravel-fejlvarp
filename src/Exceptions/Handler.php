@@ -71,7 +71,7 @@ class Handler extends ExceptionHandler
         // Generate unique hash from message + file + line number
         // We strip out revision-part of the file name.
         // Assuming a standard capistrano deployment path, this will prevent duplicates across deploys.
-        $hash = 'brobizz-api-test' . $exception->getMessage() . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile()) . $exception->getLine();
+        $hash = config('app.name') . $exception->getMessage() . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile()) . $exception->getLine();
 
         $data = [
             'hash' => md5($hash),
