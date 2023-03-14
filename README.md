@@ -54,6 +54,23 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="laravel-fejlvarp-views"
 ```
 
+You can replace your exception-handler
+Replace 
+```
+$app->singleton(
+	'Illuminate\Contracts\Debug\ExceptionHandler',
+	'App\Exceptions\Handler'
+);
+```
+with
+```
+$app->singleton(
+	'Illuminate\Contracts\Debug\ExceptionHandler',
+	'Tvup\LaravelFejlvarp\Exceptions\Handler'
+);
+```
+
+
 ## Usage
 
 ## Testing
