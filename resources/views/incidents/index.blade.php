@@ -1,4 +1,4 @@
-@extends('laravelfejlvarp::layouts.captain')
+@extends('laravel-fejlvarp::layouts.captain')
 
 @push('styles')
     <style>
