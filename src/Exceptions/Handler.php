@@ -71,8 +71,10 @@ class Handler extends ExceptionHandler
         // Generate unique hash from message + file + line number
         // We strip out revision-part of the file name.
         // Assuming a standard capistrano deployment path, this will prevent duplicates across deploys.
-        $hash = config('app.name') . $exception->getMessage() . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile()) . $exception->getLine();
-
+        $hash = config('app.name')
+            . $exception->getMessage()
+            . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile())
+            . $exception->getLine();
         $data = [
             'hash' => md5($hash),
             'subject' => $exception->getMessage() ? $exception->getMessage() : 'Subject is empty',
@@ -94,8 +96,14 @@ class Handler extends ExceptionHandler
                 ],
             ], JSON_THROW_ON_ERROR),
         ];
-        $myRequest = Request::create('/api/incidents', 'POST', $data, [], [], ['CONTENT_TYPE'=>'application/x-www-form-urlencoded']);
-
-        app()->handle($myRequest);
+        $request = Request::create(
+            '/api/incidents',
+            'POST',
+            $data,
+            [],
+            [],
+            ['CONTENT_TYPE'=>'application/x-www-form-urlencoded']
+        );
+        app()->handle($request);
     }
 }

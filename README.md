@@ -11,7 +11,12 @@ The tool provides you with a place to log runtime errors.
 
 The service can notify when an incident first happens or is reopened via mail or through pushover.net.
 
-It offers a web based interface to see debug info about the incident.
+It offers a web based interface to see debug info about the incident:
+
+| Incidents overview                                                                                                           | Incident detail view                                                                                                         |
+|------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| <img src="https://user-images.githubusercontent.com/4526352/224930377-17f8889c-99fa-4ca0-a049-d182f6c3bbe0.png" width="500"> | <img src="https://user-images.githubusercontent.com/4526352/224930490-f0607982-737a-414d-b8b4-95de3c36f790.png" width="500"> |
+
 
 ## Contributors
 
@@ -27,6 +32,8 @@ You can install the package via composer:
 ```bash
 composer require tvup/laravel-fejlvarp
 ```
+
+Default route to overview will be http://your-url.top/incidents
 
 You can publish and run the migrations with:
 
@@ -70,6 +77,44 @@ $app->singleton(
 );
 ```
 
+You can have other applications report to the one you install it on, get inspiration from
+/src/Exceptions/Handler.php
+```php
+$hash = config('app.name')
+            . $exception->getMessage()
+            . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile())
+            . $exception->getLine();
+        $data = [
+            'hash' => md5($hash),
+            'subject' => $exception->getMessage() ? $exception->getMessage() : 'Subject is empty',
+            'data' => json_encode([
+                'application' => config('app.name'),
+                'error' => [
+                    'type' => get_class($exception),
+                    'message' => $exception->getMessage(),
+                    'code' => $exception->getCode(),
+                    'file' => $exception->getFile(),
+                    'line' => $exception->getLine(),
+                    'trace' => $exception->getTraceAsString(),
+                ],
+                'environment' => [
+                    'GET' => $_GET ?: null,
+                    'POST' => $_POST ?: null,
+                    'SERVER' => $_SERVER ?: null,
+                    'SESSION' => $_SESSION ?? null,
+                ],
+            ], JSON_THROW_ON_ERROR),
+        ];
+        $request = Request::create(
+            '/api/incidents', 
+            'POST', 
+            $data, 
+            [], 
+            [], 
+            ['CONTENT_TYPE'=>'application/x-www-form-urlencoded']
+        );
+        app()->handle($request);
+``` 
 
 ## Usage
 
