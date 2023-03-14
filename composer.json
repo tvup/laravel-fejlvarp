@@ -67,10 +67,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaravelFejlvarpServiceProvider"
+                "Tvup\\LaravelFejlvarp\\LaravelFejlvarpServiceProvider"
             ],
             "aliases": {
-                "LaravelFejlvarp": "LaravelFejlvarp"
+                "LaravelFejlvarp": "Tvup\\LaravelFejlvarp\\Facades\\LaravelFejlvarp"
             }
         }
     },
