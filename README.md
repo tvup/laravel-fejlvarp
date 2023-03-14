@@ -25,20 +25,20 @@ Major versions follows Laravel versions.
 You can install the package via composer:
 
 ```bash
-composer require tvup/laravelfejlvarp
+composer require tvup/laravel-fejlvarp
 ```
 
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravelfejlvarp-migrations"
+php artisan vendor:publish --tag="laravel-fejlvarp-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravelfejlvarp-config"
+php artisan vendor:publish --tag="laravel-fejlvarp-config"
 ```
 
 This is the contents of the published config file:
@@ -51,15 +51,10 @@ return [
 Optionally, you can publish the views using
 
 ```bash
-php artisan vendor:publish --tag="laravelfejlvarp-views"
+php artisan vendor:publish --tag="laravel-fejlvarp-views"
 ```
 
 ## Usage
-
-```php
-$laravelFejlvarp = new Tvup\LaravelFejlvarp();
-echo $laravelFejlvarp->echoPhrase('Hello, Tvup!');
-```
 
 ## Testing
 
