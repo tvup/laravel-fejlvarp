@@ -58,7 +58,7 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param Request $request
-     * @param \Throwable $exception
+     * @param Throwable $e
      * @return Response
      */
     public function render($request, Throwable $e)
@@ -66,7 +66,7 @@ class Handler extends ExceptionHandler
         return parent::render($request, $e);
     }
 
-    private function fejlvarp_exception_handler($exception) : void
+    private function fejlvarp_exception_handler(Throwable $exception) : void
     {
         // Generate unique hash from message + file + line number
         // We strip out revision-part of the file name.

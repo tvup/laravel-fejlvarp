@@ -6,7 +6,6 @@ composer.lock
 coverage
 docs
 phpunit.xml
-phpunit.xml.dist
 phpstan-baseline.neon
 phpstan.neon.dist
 testbench.yaml
