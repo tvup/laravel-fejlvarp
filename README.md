@@ -68,8 +68,9 @@ return [
 ```
 
 ipstack is used to get info about ip-addresses - you can retrieve an access key here: https://ipstack.com/signup/free
+Results from ipstack are cached, so it won't drain the free lookups right away.
 
-Pushover/slakc/mail is used to inform about new og reopened incidents
+Pushover/slack/mail is used to inform about new og reopened incidents
 
 Optionally, you can publish the views using
 
