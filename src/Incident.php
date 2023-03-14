@@ -34,4 +34,9 @@ class Incident extends Model
      * Casts for json-format
      */
     protected $casts = ['data' => 'array'];
+
+    protected $dates = [
+        'resolved_at',
+        'last_seen_at',
+    ];
 }
