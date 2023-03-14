@@ -16,11 +16,11 @@ class LaravelFejlvarpServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('laravelfejlvarp')
+            ->name('laravel-fejlvarp')
             ->hasConfigFile()
             ->hasViews()
-            ->hasViewComponents('laravelfejlvarp', Ago::class)
+            ->hasViewComponents('laravel-fejlvarp', Ago::class)
             ->hasRoutes(['web', 'api'])
-            ->hasMigration('create_laravelfejlvarp_table');
+            ->hasMigration('create_incidents_table');
     }
 }
