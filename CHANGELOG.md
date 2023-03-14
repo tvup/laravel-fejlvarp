@@ -4,6 +4,19 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v9.1.1 - 2023-03-14
+
+### What's Changed
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v9.1.0...v9.1.1
+
+#### Minor changes
+
+- Adds type-hint for method fejlvarp_exception_handler. Corrects php-doc for function render
+- Upgrade testbench version in test-flow for gh actions
+- Adds missing phpunit.xml
+- Up minimum stability
+
 ## v9.1.0 - 2023-03-14
 
 ### What's Changed
