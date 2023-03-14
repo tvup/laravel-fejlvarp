@@ -1,6 +1,6 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp\Http\Requests;
+namespace Tvup\LaravelFejlvarp\Http\Requests;
 
 class IncidentStoreRequest extends ApiRequest
 {

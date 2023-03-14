@@ -42,16 +42,17 @@
     },
     "autoload": {
         "psr-4": {
-            "Tvup\\LaravelFejlVarp\\": "src",
-            "Tvup\\LaravelFejlVarp\\Database\\Factories\\": "database/factories"
+            "Tvup\\LaravelFejlvarp\\": "src",
+            "Tvup\\LaravelFejlvarp\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tvup\\LaravelFejlVarp\\Tests\\": "tests"
+            "Tvup\\LaravelFejlvarp\\Tests\\": "tests"
         }
     },
     "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
@@ -66,10 +67,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Tvup\\LaravelFejlVarp\\LaravelFejlVarpServiceProvider"
+                "LaravelFejlvarpServiceProvider"
             ],
             "aliases": {
-                "LaravelFejlVarp": "Tvup\\LaravelFejlVarp\\Facades\\LaravelFejlVarp"
+                "LaravelFejlvarp": "LaravelFejlvarp"
             }
         }
     },

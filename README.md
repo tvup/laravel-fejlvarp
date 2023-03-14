@@ -57,8 +57,8 @@ php artisan vendor:publish --tag="laravelfejlvarp-views"
 ## Usage
 
 ```php
-$laravelFejlVarp = new Tvup\LaravelFejlVarp();
-echo $laravelFejlVarp->echoPhrase('Hello, Tvup!');
+$laravelFejlvarp = new Tvup\LaravelFejlvarp();
+echo $laravelFejlvarp->echoPhrase('Hello, Tvup!');
 ```
 
 ## Testing

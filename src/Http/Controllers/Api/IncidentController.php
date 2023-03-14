@@ -1,6 +1,6 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp\Http\Controllers\Api;
+namespace Tvup\LaravelFejlvarp\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -8,8 +8,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Tvup\LaravelFejlVarp\Http\Requests\IncidentStoreRequest;
-use Tvup\LaravelFejlVarp\Incident;
+use Tvup\LaravelFejlvarp\Http\Requests\IncidentStoreRequest;
+use Tvup\LaravelFejlvarp\Incident;
 
 class IncidentController
 {
@@ -26,13 +26,13 @@ class IncidentController
     public function __construct()
     {
         $this->server_name = config('app.url') . '/incidents';
-        $this->pushover_apitoken = config('laravelfejlvarp.pushover.apitoken');
-        $this->pushover_userkey = config('laravelfejlvarp.pushover.userkey');
-        $this->slack_webhook_url = config('laravelfejlvarp.slack.webhook_url');
-        if (null === config('laravelfejlvarp.ipstack.access_key')) {
+        $this->pushover_apitoken = config('fejlvarp.pushover.apitoken');
+        $this->pushover_userkey = config('fejlvarp.pushover.userkey');
+        $this->slack_webhook_url = config('fejlvarp.slack.webhook_url');
+        if (null === config('fejlvarp.ipstack.access_key')) {
             throw new \Exception('Access key for ipstack wasn\'t set in config');
         }
-        $this->ipStackAccessKey = config('laravelfejlvarp.ipstack.access_key');
+        $this->ipStackAccessKey = config('fejlvarp.ipstack.access_key');
     }
 
     public function store(IncidentStoreRequest $request) : Response

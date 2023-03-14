@@ -1,6 +1,6 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp\Http\Requests;
+namespace Tvup\LaravelFejlvarp\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;

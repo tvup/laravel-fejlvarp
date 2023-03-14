@@ -1,12 +1,12 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp;
+namespace Tvup\LaravelFejlvarp;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Tvup\LaravelFejlVarp\View\Components\Ago;
+use Tvup\LaravelFejlvarp\View\Components\Ago;
 
-class LaravelFejlVarpServiceProvider extends PackageServiceProvider
+class LaravelFejlvarpServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {

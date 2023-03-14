@@ -1,6 +1,6 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp;
+namespace Tvup\LaravelFejlvarp;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

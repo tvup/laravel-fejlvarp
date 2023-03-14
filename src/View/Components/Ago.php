@@ -1,10 +1,10 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp\View\Components;
+namespace Tvup\LaravelFejlvarp\View\Components;
 
 use Carbon\Carbon;
 use Illuminate\View\Component;
-use Tvup\LaravelFejlVarp\Incident;
+use Tvup\LaravelFejlvarp\Incident;
 
 class Ago extends Component
 {

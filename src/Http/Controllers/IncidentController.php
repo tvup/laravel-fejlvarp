@@ -1,13 +1,13 @@
 <?php
 
-namespace Tvup\LaravelFejlVarp\Http\Controllers;
+namespace Tvup\LaravelFejlvarp\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Tvup\LaravelFejlVarp\Incident;
+use Tvup\LaravelFejlvarp\Incident;
 
 class IncidentController extends \App\Http\Controllers\Controller
 {
