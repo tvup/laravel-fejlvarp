@@ -17,7 +17,7 @@ class LaravelFejlvarpServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-fejlvarp')
-            ->hasConfigFile()
+            ->hasConfigFile('fejlvarp')
             ->hasViews('laravel-fejlvarp')
             ->hasViewComponents('laravel-fejlvarp', Ago::class)
             ->hasRoutes(['web', 'api'])
