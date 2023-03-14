@@ -2,15 +2,13 @@
 
 namespace Tvup\LaravelFejlvarp\Exceptions;
 
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
-use Illuminate\Support\Facades\Route;
 
 class Handler extends ExceptionHandler
 {
@@ -75,7 +73,7 @@ class Handler extends ExceptionHandler
         // Assuming a standard capistrano deployment path, this will prevent duplicates across deploys.
         $hash = 'brobizz-api-test' . $exception->getMessage() . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile()) . $exception->getLine();
 
-        $data= [
+        $data = [
             'hash' => md5($hash),
             'subject' => $exception->getMessage() ? $exception->getMessage() : 'Subject is empty',
             'data' => json_encode([
@@ -96,7 +94,7 @@ class Handler extends ExceptionHandler
                 ],
             ], JSON_THROW_ON_ERROR),
         ];
-        $myRequest  = \Illuminate\Http\Request::create('/api/incidents', 'POST', $data, [], [], ['CONTENT_TYPE'=>'application/x-www-form-urlencoded']);
+        $myRequest = \Illuminate\Http\Request::create('/api/incidents', 'POST', $data, [], [], ['CONTENT_TYPE'=>'application/x-www-form-urlencoded']);
 
         app()->handle($myRequest);
     }
