@@ -1,4 +1,4 @@
-@extends('laravelfejlvarp::layouts.captain')
+@extends('laravel-fejlvarp::layouts.captain')
 
 @push('styles')
     <style>
@@ -202,7 +202,7 @@
                         <td>
                             <a href="/incidents/{!! rawurlencode($incident->hash) !!}">{!! $incident->subject !!}</a>
                         </td>
-                        <x-laravelfejlvarp-ago :hash="$incident->hash" class="mt-4"/>
+                        <x-laravel-fejlvarp-ago :hash="$incident->hash" class="mt-4"/>
                         <td class="nobreak">{{ $incident->occurrences }}</td>
 
                         <td class="nobreak">
