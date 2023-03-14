@@ -193,23 +193,25 @@
                 @foreach ($incidents as $incident)
                     <tr>
                         <td class="nobreak">
-                            @if($incident['resolved_at'])
+                            @if($incident->resolved_at !== null)
                                 <span class="resolved">RESOLVED</span>
                             @else
                                 <span class="open">OPEN</span>
                             @endif
                         </td>
                         <td>
-                            <a href="/incidents/{!! rawurlencode($incident['hash']) !!}">{!! $incident['subject'] !!}</a>
+                            <a href="/incidents/{!! rawurlencode($incident->hash) !!}">{!! $incident->subject !!}</a>
                         </td>
-                        <x-laravelfejlvarp-ago :hash="$incident['hash']" class="mt-4"/>
-                        <td class="nobreak">{{ $incident['occurrences'] }}</td>
+                        <x-laravelfejlvarp-ago :hash="$incident->hash" class="mt-4"/>
+                        <td class="nobreak">{{ $incident->occurrences }}</td>
 
                         <td class="nobreak">
-                            <form method="POST" action="{{ route('incident.delete' , ['hash' => $incident['hash']]) }}">
+                            @if($incident->resolved_at === null)
+                            <form method="POST" action="{{ route('incident.delete' , ['hash' => $incident->hash]) }}">
                                 @csrf
                                 <input type="submit" value="Mark Resolved"/>
                             </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
