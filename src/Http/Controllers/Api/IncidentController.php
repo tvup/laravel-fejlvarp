@@ -147,7 +147,7 @@ class IncidentController
 
             if ($incident->exists && $incident->resolved_at !== null) {
                 $notification = 'REOPEN';
-            } else {
+            } elseif ($incident->exists && $incident->resolved_at === null) {
                 $notification = 'NEW';
             }
 

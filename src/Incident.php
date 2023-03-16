@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property array|null $data
  * @property int $occurrences
  * @property Carbon $last_seen_at
- * @property Carbon $resolved_at
+ * @property Carbon|null $resolved_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
