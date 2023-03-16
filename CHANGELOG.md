@@ -4,6 +4,10 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v9.1.2 - 2023-03-16
+
+Fixes bug where incidents weren't reopened
+
 ## v9.1.1 - 2023-03-14
 
 ### What's Changed
