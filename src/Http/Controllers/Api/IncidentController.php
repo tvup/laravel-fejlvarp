@@ -150,7 +150,7 @@ class IncidentController
             } else {
                 $notification = 'NEW';
             }
-
+            $incident->resolved_at = null;
             $incident->last_seen_at = Carbon::now('Europe/Copenhagen');
             $incident->subject = $subject;
             $data = json_decode($data, true);
