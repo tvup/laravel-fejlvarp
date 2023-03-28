@@ -4,6 +4,16 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v9.1.5 - 2023-03-28
+
+### What's Changed
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v9.1.4...v9.1.5
+
+#### Bugfix
+
+Fixes bug where all exceptions received were notified upon not just on new or reopen events
+
 ## v9.1.4 - 2023-03-17
 
 ### What's Changed
