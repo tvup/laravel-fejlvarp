@@ -148,7 +148,11 @@ class IncidentController
             if ($incident->exists && $incident->resolved_at !== null) {
                 $notification = 'REOPEN';
             } elseif ($incident->exists && $incident->resolved_at === null) {
+                $notification = null;
+            } elseif (!$incident->exists) {
                 $notification = 'NEW';
+            } else {
+                throw new \Exception('DAMN! You fell through the decision tree, that shouldn\'t be possible');
             }
 
             $incident->resolved_at = null;
