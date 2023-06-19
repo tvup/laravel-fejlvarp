@@ -33,7 +33,7 @@
         "friendsofphp/php-cs-fixer": "^3.15",
         "nunomaduro/collision": "^6.0",
         "nunomaduro/larastan": "^2.5",
-        "orchestra/testbench": "^7.0",
+        "orchestra/testbench": "^8.0",
         "pestphp/pest": "^1.21",
         "pestphp/pest-plugin-laravel": "^1.1",
         "phpstan/phpstan-phpunit": "^1.0",
