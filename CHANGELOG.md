@@ -4,6 +4,13 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v10.2.5 - 2023-08-02
+
+### What's Changed
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v9.1.4...v10.2.5
+Laravel v10 campatible
+
 ## v9.1.5 - 2023-03-28
 
 ### What's Changed
