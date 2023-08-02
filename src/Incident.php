@@ -22,7 +22,7 @@ class Incident extends Model
 
     protected $fillable = ['hash'];
 
-    protected $connection = 'app_api_no_prefix';
+    protected $connection = 'mysql_light_website';
 
     protected $primaryKey = 'hash';
 
