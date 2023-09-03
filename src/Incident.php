@@ -22,8 +22,6 @@ class Incident extends Model
 
     protected $fillable = ['hash'];
 
-    protected $connection = 'mysql_light_website';
-
     protected $primaryKey = 'hash';
 
     public $incrementing = false;
