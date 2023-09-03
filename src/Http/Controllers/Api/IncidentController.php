@@ -38,7 +38,12 @@ class IncidentController
     public function store(IncidentStoreRequest $request) : Response
     {
         $validated = (array) $request->validated();
-        $this->fejlvarp_log(strval($validated['hash']), Str::substr(strval($validated['subject']), 0, 255), strval($validated['data']));
+
+        $hash = is_scalar($validated['hash']) ? strval($validated['hash']) : '';
+        $subject = is_scalar($validated['subject']) ? Str::substr(strval($validated['subject']), 0, 255) : '';
+        $data = is_scalar($validated['data']) ? strval($validated['data']) : '';
+
+        $this->fejlvarp_log($hash, $subject, $data);
 
         return response('OK', 200);
     }
