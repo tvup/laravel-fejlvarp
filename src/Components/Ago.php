@@ -1,6 +1,6 @@
 <?php
 
-namespace Tvup\LaravelFejlvarp\View\Components;
+namespace Tvup\LaravelFejlvarp\Components;
 
 use Carbon\Carbon;
 use Illuminate\View\Component;

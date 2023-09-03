@@ -163,7 +163,7 @@
 @section('content')
 
     <div id="page-header">
-        <h1><img src="incidents.ico" height="32px" width="32px"/>Incidents</h1>
+        <h1><img src="{{ asset('vendor/fejlvarp/incidents.ico') }}" height="32px" width="32px"/>Incidents</h1>
     </div>
     <div class="page-content">
 

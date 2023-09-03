@@ -4,7 +4,7 @@ namespace Tvup\LaravelFejlvarp;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Tvup\LaravelFejlvarp\View\Components\Ago;
+use Tvup\LaravelFejlvarp\Components\Ago;
 
 class LaravelFejlvarpServiceProvider extends PackageServiceProvider
 {
@@ -21,6 +21,7 @@ class LaravelFejlvarpServiceProvider extends PackageServiceProvider
             ->hasViews('laravel-fejlvarp')
             ->hasViewComponents('laravel-fejlvarp', Ago::class)
             ->hasRoutes(['web', 'api'])
-            ->hasMigration('create_incidents_table');
+            ->hasMigration('create_incidents_table')
+            ->hasAssets();
     }
 }
