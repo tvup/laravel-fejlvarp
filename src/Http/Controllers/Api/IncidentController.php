@@ -155,7 +155,7 @@ class IncidentController
             $incident->last_seen_at = Carbon::now('Europe/Copenhagen');
             $incident->subject = $subject;
             $data = json_decode($data, true);
-            $incident->data = gettype($data) === 'array' ? $data : null;
+            $incident->data = gettype($data) === 'array' ? $data : [];
             $incident->occurrences = $incident->exists ? $incident->occurrences + 1 : 1;
             $incident->save();
         });
