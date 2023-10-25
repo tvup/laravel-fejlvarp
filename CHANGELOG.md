@@ -4,6 +4,18 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v10.2.6 - 2023-10-25
+
+### What's Changed
+
+**Full Changelog**: [https://github.com/tvup/laravel-fejlvarp/compare/v10.2.5.10...v10.2.6](https://github.com/tvup/laravel-fejlvarp/compare/v10.2.5.10...v10.2.6)
+
+#### Primarily Under-the-Hood Changes
+
+- **Middleware Update**: Removed the "admin" middleware attachment from routes.
+- **Installation Ease**: Enhanced the installation process to ensure users can set up the package with minimal effort.
+- **Dependencies**: Updated various 3rd party packages to their latest versions.
+
 ## v10.2.5.3 - 2023-08-02
 
 **Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v10.2.5.2...v10.2.5.3
