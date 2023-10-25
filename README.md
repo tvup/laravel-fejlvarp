@@ -33,19 +33,28 @@ You can install the package via composer:
 composer require tvup/laravel-fejlvarp
 ```
 
-Default route to overview will be http://your-url.top/incidents
+Default route to list of incidents will be http://your-url.top/incidents
+
+**Important! Make sure to protect this route with (admin) authentication**
+
+You can enjoy the convenience of letteing the package install itsleft
+```bash
+php artisan fejlvarp:install
+```
+It will also ask you if you want to create (migrate) the table that will be storing the incidents
+
+
+Instead of doing the above, or just if you are curious, you publish the files manually by doing the following:
 
 You can publish and run the migrations with:
-
 ```bash
-php artisan vendor:publish --tag="laravel-fejlvarp-migrations"
+php artisan vendor:publish --tag="fejlvarp-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
-
 ```bash
-php artisan vendor:publish --tag="laravel-fejlvarp-config"
+php artisan vendor:publish --tag="fejlvarp-config"
 ```
 
 This is the contents of the published config file:
@@ -73,29 +82,19 @@ Results from ipstack are cached, so it won't drain the free lookups right away.
 Pushover/slack/mail is used to inform about new og reopened incidents
 
 Optionally, you can publish the views using
-
 ```bash
-php artisan vendor:publish --tag="laravel-fejlvarp-views"
+php artisan vendor:publish --tag="fejlvarp-views"
 ```
 
 You can replace your exception-handler
 Replace 
+```bash
+php artisan vendor:publish --tag=fejlvarp-provider
 ```
-$app->singleton(
-	'Illuminate\Contracts\Debug\ExceptionHandler',
-	'App\Exceptions\Handler'
-);
-```
-with
-```
-$app->singleton(
-	'Illuminate\Contracts\Debug\ExceptionHandler',
-	'Tvup\LaravelFejlvarp\Exceptions\Handler'
-);
-```
+remember to make sure that the serivce-provider is correctly installed
 
 You can have other applications report to the one you install it on, get inspiration from
-/src/Exceptions/Handler.php
+/src/Exceptions/LaravelFejlvarpExceptionHandler.php
 ```php
 $hash = config('app.name')
             . $exception->getMessage()
@@ -132,8 +131,6 @@ $hash = config('app.name')
         );
         app()->handle($request);
 ``` 
-
-## Usage
 
 ## Testing
 
