@@ -5,7 +5,6 @@ namespace Tvup\LaravelFejlvarp;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Tvup\LaravelFejlvarp\Commands\LaravelFejlvarpCommand;
 use Tvup\LaravelFejlvarp\Components\Ago;
 
 class LaravelFejlvarpServiceProvider extends PackageServiceProvider
