@@ -1,17 +1,18 @@
-# Simple incident logger for Laravel
+# Laravel Fejlvarp: Your Go-To Incident Logger
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tvup/laravel-fejlvarp.svg?style=flat-square)](https://packagist.org/packages/tvup/laravel-fejlvarp)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/tvup/laravel-fejlvarp/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/tvup/laravel-fejlvarp/actions?query=workflow%3Arun-tests+branch%3Amaster)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/tvup/laravel-fejlvarp/php-cs-fixer.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/tvup/laravel-fejlvarp/actions?query=workflow%3A"Check+&20+fix+styling"+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/tvup/laravel-fejlvarp.svg?style=flat-square)](https://packagist.org/packages/tvup/laravel-fejlvarp)
 
-Laravel Fejlvarp is an incident logger for Laravel.
+Laravel Fejlvarp is a robust incident logger tailored for Laravel applications. Designed to streamline error tracking, it ensures that you're always in the loop about runtime errors, allowing for swift resolution.
 
-The tool provides you with a place to log runtime errors.
+**Why Choose Laravel Fejlvarp?**
 
-The service can notify when an incident first happens or is reopened via mail or through pushover.net.
+- **Instant Notifications:** Get notified immediately when an incident occurs or is reopened via email or pushover.net.
+- **Intuitive Interface:** A user-friendly web interface lets you delve deep into debug information about each incident.
+- **Seamless Integration:** Designed to fit right into your Laravel application without any hassle.
 
-It offers a web based interface to see debug info about the incident:
 
 | Incidents overview                                                                                                           | Incident detail view                                                                                                         |
 |------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
