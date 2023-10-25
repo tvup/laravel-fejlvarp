@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::connection('app_api_no_prefix')->create('incidents', function (Blueprint $table) {
+        Schema::create('incidents', function (Blueprint $table) {
             $table->string('hash', 32)->primary();
             $table->string('subject', 255);
             $table->longText('data');

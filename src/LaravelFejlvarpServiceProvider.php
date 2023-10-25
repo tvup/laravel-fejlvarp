@@ -2,9 +2,11 @@
 
 namespace Tvup\LaravelFejlvarp;
 
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Tvup\LaravelFejlvarp\View\Components\Ago;
+use Tvup\LaravelFejlvarp\Commands\LaravelFejlvarpCommand;
+use Tvup\LaravelFejlvarp\Components\Ago;
 
 class LaravelFejlvarpServiceProvider extends PackageServiceProvider
 {
@@ -17,10 +19,28 @@ class LaravelFejlvarpServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-fejlvarp')
-            ->hasConfigFile('fejlvarp')
-            ->hasViews('laravel-fejlvarp')
-            ->hasViewComponents('laravel-fejlvarp', Ago::class)
+            ->hasConfigFile()
             ->hasRoutes(['web', 'api'])
-            ->hasMigration('create_incidents_table');
+            ->hasCommand(LaravelFejlvarpCommand::class)
+            ->hasAssets()
+            ->hasViews()
+            ->hasViewComponents('fejlvarp', Ago::class)
+            ->hasMigration('create_incidents_table')
+            ->publishesServiceProvider('LaravelFejlvarpServiceProvider')
+            ->runsMigrations()
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command
+                    ->startWith(function (InstallCommand $command) {
+                        $command->info('Publishing Fejlvarp...');
+                    })
+                    ->publishConfigFile()
+                    ->publishAssets()
+                    ->publishMigrations()
+                    ->askToRunMigrations()
+                    ->copyAndRegisterServiceProviderInApp()
+                    ->endWith(function (InstallCommand $command) {
+                        $command->info('Have a great day!');
+                    });
+            });
     }
 }
