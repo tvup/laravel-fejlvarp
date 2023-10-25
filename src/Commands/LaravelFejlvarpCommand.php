@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 class LaravelFejlvarpCommand extends Command
 {
-    public $signature = 'laravel-fejlvarp';
+    public $signature = 'laravel-fejlvarp:myobby';
 
     public $description = 'My command';
 

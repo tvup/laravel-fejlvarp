@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Tvup\LaravelFejlvarp\Incident;
 
-class IncidentController extends \App\Http\Controllers\Controller
+class IncidentController
 {
     private string $server_name;
 
@@ -26,7 +26,7 @@ class IncidentController extends \App\Http\Controllers\Controller
         }
         $incidents = $this->fejlvarp_select_incidents($show_all);
 
-        return view('laravel-fejlvarp::incidents.index', ['show_all' => $show_all, 'incidents' => $incidents, 'user_agent' => '', 'geoip' => '']);
+        return view('fejlvarp::incidents.index', ['show_all' => $show_all, 'incidents' => $incidents, 'user_agent' => '', 'geoip' => '']);
     }
 
     public function show(string $hash) : View
@@ -41,7 +41,7 @@ class IncidentController extends \App\Http\Controllers\Controller
 
         $user_agent = $incident->data['environment']['SERVER']['HTTP_USER_AGENT'] ?? null;
 
-        return view('laravel-fejlvarp::incidents.show', ['incident' => $incident, 'server_name' => $this->server_name, 'user_agent' => $user_agent, 'geoip' => $geoip]);
+        return view('fejlvarp::incidents.show', ['incident' => $incident, 'server_name' => $this->server_name, 'user_agent' => $user_agent, 'geoip' => $geoip]);
     }
 
     public function destroy(string $hash) : RedirectResponse

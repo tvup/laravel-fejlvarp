@@ -29,9 +29,6 @@ class IncidentController
         $this->pushover_apitoken = config('fejlvarp.pushover.apitoken');
         $this->pushover_userkey = config('fejlvarp.pushover.userkey');
         $this->slack_webhook_url = config('fejlvarp.slack.webhook_url');
-        if (null === config('fejlvarp.ipstack.access_key')) {
-            throw new \Exception('Access key for ipstack wasn\'t set in config');
-        }
         $this->ipStackAccessKey = config('fejlvarp.ipstack.access_key');
     }
 
@@ -66,7 +63,7 @@ class IncidentController
         $callback = $request->query('callback');
 
         $data = null;
-        if (!$this->ip_in_range($ip, '10.0.0.0/8') && !$this->ip_in_range($ip, '172.16.0.0/12') && !$this->ip_in_range($ip, '192.168.0.0/16')) {
+        if ($this->ipStackAccessKey && (!$this->ip_in_range($ip, '10.0.0.0/8') && !$this->ip_in_range($ip, '172.16.0.0/12') && !$this->ip_in_range($ip, '192.168.0.0/16'))) {
             $seconds = 60 * 60 * 24 * 30;
             $data = (array) Cache::remember('ip-' . $ip, $seconds, function () use ($ip) {
                 $url = 'http://api.ipstack.com/' . rawurlencode($ip) . '?access_key=' . $this->ipStackAccessKey;
