@@ -33,6 +33,7 @@ class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
     public function report(Throwable $e) : void
     {
         if ($this->shouldntReport($e)) {
+            logger()->info('shouldntReport: ' . $e->getMessage());
             return;
         }
 
@@ -50,6 +51,7 @@ class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
      */
     public function render($request, Throwable $e)
     {
+        logger()->info('fejlvarp.render: ' . $e->getMessage());
         return parent::render($request, $e);
     }
 
