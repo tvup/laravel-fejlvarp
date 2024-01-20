@@ -2,23 +2,13 @@
 
 namespace Tvup\LaravelFejlvarp\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as LaravelExceptionHandler;
+use App\Exceptions\Handler as LaravelExceptionHandler;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
 {
-    /**
-     * A list of the inputs that are never flashed for validation exceptions.
-     *
-     * @var array<int, string>
-     */
-    protected $dontFlash = [
-        'current_password',
-        'password',
-        'password_confirmation',
-    ];
 
     /**
      * Report or log an exception.
