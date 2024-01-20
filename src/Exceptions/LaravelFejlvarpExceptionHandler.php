@@ -2,14 +2,13 @@
 
 namespace Tvup\LaravelFejlvarp\Exceptions;
 
-use Illuminate\Auth\AuthenticationException;
 use App\Exceptions\Handler as LaravelExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
-
 
 class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
 {
