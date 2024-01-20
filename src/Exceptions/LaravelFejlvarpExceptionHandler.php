@@ -9,7 +9,6 @@ use Throwable;
 
 class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
 {
-
     /**
      * Report or log an exception.
      *
