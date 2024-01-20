@@ -12,16 +12,6 @@ use Throwable;
 
 class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
 {
-    /**
-     * A list of the exception types that are not reported.
-     *
-     * @var array<int, class-string<Throwable>>
-     */
-    protected $dontReport = [
-        AuthenticationException::class,
-        MethodNotAllowedHttpException::class,
-        NotFoundHttpException::class,
-    ];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
