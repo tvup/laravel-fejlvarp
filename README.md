@@ -24,7 +24,11 @@ Laravel Fejlvarp is a robust incident logger tailored for Laravel applications. 
 This package is an enchancement of [Fejlvarp](https://github.com/troelskn/fejlvarp) by [troelskn](https://github.com/troelskn). Thanks for letting me envolve on the idea to letting it become a package for laravel.
 
 ## Versions
-Major versions follows Laravel versions.
+~~Major versions follows Laravel versions.~~
+
+Previously, major versions followed Laravel versions. However, this practice was identified as an anti-pattern and has since been discontinued.
+
+Starting from version 11, the corresponding Laravel version requirement is explicitly stated in the `composer.json` file.
 
 ## Installation
 
