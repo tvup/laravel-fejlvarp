@@ -32,9 +32,11 @@ class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
      */
     public function report(Throwable $e) : void
     {
+        logger()->info('dontreport: '. json_encode($this->dontReport ?? [], JSON_PRETTY_PRINT));
+        logger()->info('internalDontReport: '. json_encode($this->internalDontReport ?? [], JSON_PRETTY_PRINT));
+
         if ($this->shouldntReport($e)) {
             logger()->info('shouldntReport: ' . $e->getMessage());
-
             return;
         }
 
