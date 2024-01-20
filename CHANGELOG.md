@@ -4,6 +4,20 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v11.0.0 - 2024-01-20
+
+### What's Changed
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v10.2.6...v11.0.0
+
+#### Breaking changes
+
+- **Remove `dontReport` field from handler** - It's not something the package should deal with; it's, of course, up to the user to choose these things.
+- **Remove `dontFlash` field from handler** - It's not something the package should deal with; it's, of course, up to the user to choose these things. Besides, Laravel already has a suggestion for this field in the raw installation - even more reason not to override it.
+- **Extend the Handler in the user's installation instead of the Laravel one** - We don't want to just ignore what the user has in his/her `Handler.php`.
+
+*The behaviour after updating from previuos may dramatically change since your own Handler.php is now used again.*
+
 ## v10.2.6 - 2023-10-25
 
 ### What's Changed
