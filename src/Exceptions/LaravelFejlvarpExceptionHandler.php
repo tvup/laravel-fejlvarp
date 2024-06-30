@@ -2,7 +2,7 @@
 
 namespace Tvup\LaravelFejlvarp\Exceptions;
 
-use App\Exceptions\Handler as LaravelExceptionHandler;
+use Illuminate\Foundation\Exceptions\Handler as LaravelExceptionHandler;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
