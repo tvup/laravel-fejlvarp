@@ -25,7 +25,7 @@
     ],
     "require": {
         "php": "*",
-        "laravel/framework": "^10|^11",
+        "laravel/framework": "^9|^10|^11",
         "nesbot/carbon": "^2|^3",
         "spatie/laravel-package-tools": "^1.16"
     },
