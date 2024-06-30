@@ -4,6 +4,14 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v11.1.1 - 2024-06-30
+
+### What's Changed
+
+* Use Laravels base handler by @negoziator in https://github.com/tvup/laravel-fejlvarp/pull/21
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v11.1.0...v11.1.1
+
 ## Support for Laravel 11 - 2024-06-30
 
 ### What's Changed
