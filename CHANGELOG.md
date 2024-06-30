@@ -4,6 +4,18 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## Support for Laravel 11 - 2024-06-30
+
+### What's Changed
+
+* Add support for laravel 11 by @negoziator in https://github.com/tvup/laravel-fejlvarp/pull/20
+
+### New Contributors
+
+* @negoziator made their first contribution in https://github.com/tvup/laravel-fejlvarp/pull/20
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v11.0.0...v11.1.0
+
 ## v11.0.0 - 2024-01-20
 
 ### What's Changed
