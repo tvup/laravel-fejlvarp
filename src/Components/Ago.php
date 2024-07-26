@@ -1,6 +1,6 @@
 <?php
 
-namespace Tvup\LaravelFejlvarp\View\Components;
+namespace Tvup\LaravelFejlvarp\Components;
 
 use Carbon\Carbon;
 use Illuminate\View\Component;
@@ -36,7 +36,7 @@ class Ago extends Component
      */
     public function render()
     {
-        return view('laravel-fejlvarp::components.ago');
+        return view('fejlvarp::components.ago');
     }
 
     /**

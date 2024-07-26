@@ -2,38 +2,13 @@
 
 namespace Tvup\LaravelFejlvarp\Exceptions;
 
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Exceptions\Handler as LaravelExceptionHandler;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
-class Handler extends ExceptionHandler
+class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
 {
-    /**
-     * A list of the exception types that are not reported.
-     *
-     * @var array<int, class-string<Throwable>>
-     */
-    protected $dontReport = [
-        AuthenticationException::class,
-        MethodNotAllowedHttpException::class,
-        NotFoundHttpException::class,
-    ];
-
-    /**
-     * A list of the inputs that are never flashed for validation exceptions.
-     *
-     * @var array<int, string>
-     */
-    protected $dontFlash = [
-        'current_password',
-        'password',
-        'password_confirmation',
-    ];
-
     /**
      * Report or log an exception.
      *
@@ -51,6 +26,7 @@ class Handler extends ExceptionHandler
         }
 
         $this->fejlvarp_exception_handler($e);
+
         parent::report($e);
     }
 

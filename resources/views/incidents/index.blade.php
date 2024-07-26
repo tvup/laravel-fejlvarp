@@ -1,4 +1,4 @@
-@extends('laravel-fejlvarp::layouts.captain')
+@extends('fejlvarp::layouts.captain')
 
 @push('styles')
     <style>
@@ -163,7 +163,7 @@
 @section('content')
 
     <div id="page-header">
-        <h1><img src="incidents.ico" height="32px" width="32px"/>Incidents</h1>
+        <h1><img src="{{ asset('vendor/fejlvarp/incidents.ico') }}" height="32px" width="32px"/>Incidents</h1>
     </div>
     <div class="page-content">
 
@@ -202,7 +202,7 @@
                         <td>
                             <a href="/incidents/{!! rawurlencode($incident->hash) !!}">{!! $incident->subject !!}</a>
                         </td>
-                        <x-laravel-fejlvarp-ago :hash="$incident->hash" class="mt-4"/>
+                        <x-fejlvarp-ago :hash="$incident->hash" class="mt-4"/>
                         <td class="nobreak">{{ $incident->occurrences }}</td>
 
                         <td class="nobreak">

@@ -22,7 +22,6 @@ parameters:
 #        - '#no value type specified in iterable type array#'
 #
     excludePaths:
-         - ./src/Http/Controllers/IncidentController.php
 #        - ./*/*/FileToBeExcluded.php
 #
 #    checkMissingIterableValueType: false

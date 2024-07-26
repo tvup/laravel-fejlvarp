@@ -29,16 +29,18 @@ class IncidentController
         $this->pushover_apitoken = config('fejlvarp.pushover.apitoken');
         $this->pushover_userkey = config('fejlvarp.pushover.userkey');
         $this->slack_webhook_url = config('fejlvarp.slack.webhook_url');
-        if (null === config('fejlvarp.ipstack.access_key')) {
-            throw new \Exception('Access key for ipstack wasn\'t set in config');
-        }
         $this->ipStackAccessKey = config('fejlvarp.ipstack.access_key');
     }
 
     public function store(IncidentStoreRequest $request) : Response
     {
         $validated = (array) $request->validated();
-        $this->fejlvarp_log(strval($validated['hash']), Str::substr(strval($validated['subject']), 0, 255), strval($validated['data']));
+
+        $hash = is_scalar($validated['hash']) ? strval($validated['hash']) : '';
+        $subject = is_scalar($validated['subject']) ? Str::substr(strval($validated['subject']), 0, 255) : '';
+        $data = is_scalar($validated['data']) ? strval($validated['data']) : '';
+
+        $this->fejlvarp_log($hash, $subject, $data);
 
         return response('OK', 200);
     }
@@ -61,7 +63,7 @@ class IncidentController
         $callback = $request->query('callback');
 
         $data = null;
-        if (!$this->ip_in_range($ip, '10.0.0.0/8') && !$this->ip_in_range($ip, '172.16.0.0/12') && !$this->ip_in_range($ip, '192.168.0.0/16')) {
+        if ($this->ipStackAccessKey && (!$this->ip_in_range($ip, '10.0.0.0/8') && !$this->ip_in_range($ip, '172.16.0.0/12') && !$this->ip_in_range($ip, '192.168.0.0/16'))) {
             $seconds = 60 * 60 * 24 * 30;
             $data = (array) Cache::remember('ip-' . $ip, $seconds, function () use ($ip) {
                 $url = 'http://api.ipstack.com/' . rawurlencode($ip) . '?access_key=' . $this->ipStackAccessKey;
@@ -147,7 +149,7 @@ class IncidentController
 
             if ($incident->exists && $incident->resolved_at !== null) {
                 $notification = 'REOPEN';
-            } elseif ($incident->exists && $incident->resolved_at === null) {
+            } elseif (!$incident->exists && $incident->resolved_at === null) {
                 $notification = 'NEW';
             }
 
@@ -155,7 +157,7 @@ class IncidentController
             $incident->last_seen_at = Carbon::now('Europe/Copenhagen');
             $incident->subject = $subject;
             $data = json_decode($data, true);
-            $incident->data = gettype($data) === 'array' ? $data : null;
+            $incident->data = gettype($data) === 'array' ? $data : [];
             $incident->occurrences = $incident->exists ? $incident->occurrences + 1 : 1;
             $incident->save();
         });

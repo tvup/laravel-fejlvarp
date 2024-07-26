@@ -1,17 +1,18 @@
-# Simple incident logger for Laravel
+# Laravel Fejlvarp: Your Go-To Incident Logger
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tvup/laravel-fejlvarp.svg?style=flat-square)](https://packagist.org/packages/tvup/laravel-fejlvarp)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/tvup/laravel-fejlvarp/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/tvup/laravel-fejlvarp/actions?query=workflow%3Arun-tests+branch%3Amaster)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/tvup/laravel-fejlvarp/run-tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/tvup/laravel-fejlvarp/actions?query=workflow%3Arun-tests+branch%3Amaster)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/tvup/laravel-fejlvarp/php-cs-fixer.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/tvup/laravel-fejlvarp/actions?query=workflow%3A"Check+&20+fix+styling"+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/tvup/laravel-fejlvarp.svg?style=flat-square)](https://packagist.org/packages/tvup/laravel-fejlvarp)
 
-Laravel Fejlvarp is an incident logger for Laravel.
+Laravel Fejlvarp is a robust incident logger tailored for Laravel applications. Designed to streamline error tracking, it ensures that you're always in the loop about runtime errors, allowing for swift resolution.
 
-The tool provides you with a place to log runtime errors.
+**Why Choose Laravel Fejlvarp?**
 
-The service can notify when an incident first happens or is reopened via mail or through pushover.net.
+- **Instant Notifications:** Get notified immediately when an incident occurs or is reopened via email or pushover.net.
+- **Intuitive Interface:** A user-friendly web interface lets you delve deep into debug information about each incident.
+- **Seamless Integration:** Designed to fit right into your Laravel application without any hassle.
 
-It offers a web based interface to see debug info about the incident:
 
 | Incidents overview                                                                                                           | Incident detail view                                                                                                         |
 |------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
@@ -23,7 +24,11 @@ It offers a web based interface to see debug info about the incident:
 This package is an enchancement of [Fejlvarp](https://github.com/troelskn/fejlvarp) by [troelskn](https://github.com/troelskn). Thanks for letting me envolve on the idea to letting it become a package for laravel.
 
 ## Versions
-Major versions follows Laravel versions.
+~~Major versions follows Laravel versions.~~
+
+Previously, major versions followed Laravel versions. However, this practice was identified as an anti-pattern and has since been discontinued.
+
+Starting from version 11, the corresponding Laravel version requirement is explicitly stated in the `composer.json` file.
 
 ## Installation
 
@@ -33,19 +38,28 @@ You can install the package via composer:
 composer require tvup/laravel-fejlvarp
 ```
 
-Default route to overview will be http://your-url.top/incidents
+Default route to list of incidents will be http://your-url.top/incidents
+
+**Important! Make sure to protect this route with (admin) authentication**
+
+You can enjoy the convenience of letteing the package install itsleft
+```bash
+php artisan fejlvarp:install
+```
+It will also ask you if you want to create (migrate) the table that will be storing the incidents
+
+
+Instead of doing the above, or just if you are curious, you publish the files manually by doing the following:
 
 You can publish and run the migrations with:
-
 ```bash
-php artisan vendor:publish --tag="laravel-fejlvarp-migrations"
+php artisan vendor:publish --tag="fejlvarp-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
-
 ```bash
-php artisan vendor:publish --tag="laravel-fejlvarp-config"
+php artisan vendor:publish --tag="fejlvarp-config"
 ```
 
 This is the contents of the published config file:
@@ -73,29 +87,19 @@ Results from ipstack are cached, so it won't drain the free lookups right away.
 Pushover/slack/mail is used to inform about new og reopened incidents
 
 Optionally, you can publish the views using
-
 ```bash
-php artisan vendor:publish --tag="laravel-fejlvarp-views"
+php artisan vendor:publish --tag="fejlvarp-views"
 ```
 
 You can replace your exception-handler
 Replace 
+```bash
+php artisan vendor:publish --tag=fejlvarp-provider
 ```
-$app->singleton(
-	'Illuminate\Contracts\Debug\ExceptionHandler',
-	'App\Exceptions\Handler'
-);
-```
-with
-```
-$app->singleton(
-	'Illuminate\Contracts\Debug\ExceptionHandler',
-	'Tvup\LaravelFejlvarp\Exceptions\Handler'
-);
-```
+remember to make sure that the serivce-provider is correctly installed
 
 You can have other applications report to the one you install it on, get inspiration from
-/src/Exceptions/Handler.php
+/src/Exceptions/LaravelFejlvarpExceptionHandler.php
 ```php
 $hash = config('app.name')
             . $exception->getMessage()
@@ -132,8 +136,6 @@ $hash = config('app.name')
         );
         app()->handle($request);
 ``` 
-
-## Usage
 
 ## Testing
 
