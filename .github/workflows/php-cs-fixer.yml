@@ -18,4 +18,4 @@ jobs:
       - name: Run PHP CS Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
-          args: check --config=.php-cs-fixer.php --allow-risky=yes
+          args: --dry-run --config=.php-cs-fixer.php --allow-risky=yes
