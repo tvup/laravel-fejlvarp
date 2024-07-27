@@ -1,22 +1,22 @@
 name: PHPStan
 
-on:
-  push:
-    paths:
-      - '**.php'
-      - 'phpstan.neon.dist'
+on: [push]
 
 jobs:
   phpstan:
     name: phpstan
     runs-on: ubuntu-latest
+
+    env:
+      phpversion: '8.3'
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: ${{ env.phpversion }}
           coverage: none
 
       - name: Install composer dependencies

@@ -2,9 +2,10 @@
 
 namespace Tvup\LaravelFejlvarp;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Tvup\LaravelFejlvarp\Database\Factories\IncidentFactory;
 
 /**
  * @property string $hash
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Incident extends Model
 {
+    /** @use HasFactory<IncidentFactory> */
     use HasFactory;
 
     protected $fillable = ['hash'];
