@@ -141,6 +141,13 @@ $hash = config('app.name')
                     'SERVER' => $_SERVER ?: null,
                     'SESSION' => request()->hasSession() ? request()->session()->all() : null,
                 ],
+                'application_data' => request()->user() ? [
+                    'user' => [
+                        'id' => request()->user()->id,
+                        'name' => request()->user()->name,
+                        'email' => request()->user()->email,
+                    ],
+                ] : null,
                 'queries' => app(Listener::class)->queries(),
             ], JSON_THROW_ON_ERROR),
         ];

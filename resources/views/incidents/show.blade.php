@@ -246,6 +246,21 @@
             </table>
         @endif
 
+        @if(isset($incident->data['application_data']) && isset($incident->data['application_data']['user']))
+            <h2>Application data - user</h2>
+            <table class="definitionlist">
+                <tbody>
+                @forelse($incident->data['application_data']['user'] as $key => $value)
+                    <tr>
+                        <th>{!! $key !!}</th>
+                        <td>{!! \Illuminate\Support\Str::trim(json_encode($value, JSON_PRETTY_PRINT+JSON_UNESCAPED_SLASHES),'"') !!}</td>
+                    </tr>
+                @empty
+                @endforelse
+                </tbody>
+            </table>
+        @endif
+
 
         @if (isset($incident->data['environment']))
             <h2>Request Context</h2>
