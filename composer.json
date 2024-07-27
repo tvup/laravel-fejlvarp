@@ -37,8 +37,8 @@
     "require-dev": {
         "ext-curl": "*",
         "friendsofphp/php-cs-fixer": "^3.35",
+        "larastan/larastan": "^2.9",
         "nunomaduro/collision": "^6|^7|^8",
-        "nunomaduro/larastan": "^2.6",
         "orchestra/testbench": "^7|^8|^9",
         "pestphp/pest": "^1.22.1|^2|^3",
         "pestphp/pest-plugin-laravel": "^1.4|^2|^3",
