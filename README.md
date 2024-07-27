@@ -33,8 +33,8 @@ This project supports a range of PHP and Laravel versions, tested across multipl
 
 | Laravel Version | PHP Versions         | Required `orchestra/testbench` |
 |-----------------|----------------------|--------------------------------|
-| ^9.52.16        | 8.0.2, 8.1, 8.2, 8.3 | 7.*                            |
-| 10.*            | 8.1, 8.2, 8.3        | ^8.14.1                        |
+| ^9.47           | 8.0.2, 8.1, 8.2, 8.3 | 7.*                            |
+| 10.*            | 8.1, 8.2, 8.3        | 8.*                            |
 | 11.*            | 8.2, 8.3             | 9.*                            |
 
 ### Operating Systems
