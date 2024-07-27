@@ -139,8 +139,9 @@ $hash = config('app.name')
                     'GET' => $_GET ?: null,
                     'POST' => $_POST ?: null,
                     'SERVER' => $_SERVER ?: null,
-                    'SESSION' => $_SESSION ?? null,
+                    'SESSION' => request()->hasSession() ? request()->session()->all() : null,
                 ],
+                'queries' => app(Listener::class)->queries(),
             ], JSON_THROW_ON_ERROR),
         ];
         $request = Request::create(
