@@ -7,6 +7,7 @@
         "laravel-fejlvarp",
         "fejlvarp",
         "troelskn",
+        "negoziator",
         "tvup"
     ],
     "homepage": "https://github.com/tvup/laravel-fejlvarp",
@@ -37,8 +38,8 @@
     "require-dev": {
         "ext-curl": "*",
         "friendsofphp/php-cs-fixer": "^3.35",
+        "larastan/larastan": "^2.4.0",
         "nunomaduro/collision": "^6|^7|^8",
-        "nunomaduro/larastan": "^2.6",
         "orchestra/testbench": "^7|^8|^9",
         "pestphp/pest": "^1.22.1|^2|^3",
         "pestphp/pest-plugin-laravel": "^1.4|^2|^3",
@@ -59,7 +60,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "php -r \"if (file_exists('vendor/orchestra/testbench-core/laravel/package.php')) { passthru('php vendor/bin/testbench package:discover --ansi'); }\""
+            "php -r \"if (file_exists('vendor/orchestra/testbench-core/composer.json')) { passthru('php vendor/bin/testbench package:discover --ansi'); }\""
         ],
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",

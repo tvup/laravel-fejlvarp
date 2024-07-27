@@ -1,5 +1,5 @@
 includes:
-- ./vendor/nunomaduro/larastan/extension.neon
+- ./vendor/larastan/larastan/extension.neon
 
 parameters:
     paths:
@@ -9,7 +9,6 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
-    checkMissingIterableValueType: false
 
     # Level 9 is the highest level
     level: 9
