@@ -52,6 +52,8 @@ class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
             . $exception->getMessage()
             . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile())
             . $exception->getLine();
+        $user = request()->user();
+
         $data = [
             'hash' => md5($hash),
             'subject' => $exception->getMessage() ? $exception->getMessage() : 'Subject is empty',
@@ -71,6 +73,9 @@ class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
                     'SERVER' => $_SERVER ?: null,
                     'SESSION' => request()->hasSession() ? request()->session()->all() : null,
                 ],
+                'application_data' => $user ? [
+                    'user' => $user->toArray(),
+                ] : null,
                 'queries' => app(Listener::class)->queries(),
             ], JSON_THROW_ON_ERROR),
         ];
