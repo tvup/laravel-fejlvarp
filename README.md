@@ -23,6 +23,8 @@ Laravel Fejlvarp is a robust incident logger tailored for Laravel applications. 
 
 This package is an enchancement of [Fejlvarp](https://github.com/troelskn/fejlvarp) by [troelskn](https://github.com/troelskn). Thanks for letting me envolve on the idea to letting it become a package for laravel.
 
+[negoziator](https://github.com/negoziator) has also been a great help in the process of making this package.
+
 ## Supported Versions
 
 This project supports a range of PHP and Laravel versions, tested across multiple operating systems. Below are the details of the supported versions:
@@ -158,6 +160,36 @@ $hash = config('app.name')
 composer test
 ```
 
+## Local development on laravel-fejlvarp through laravel application
+**These instructions apply to your laravel application where laravel-fejlvarp is installed as a package** 
+
+- Add a volume to your docker-compose.yml
+```yml
+            - '../local-fejlvarp-folder-relative-to-laravel-folder:/var/www/packages/laravel-fejlvarp'
+```
+(right below these lines)
+```yml
+        volumes:
+          - '.:/var/www/html'
+```
+- Add repository to composer
+```composer
+        {
+            "type": "path",
+            "url": "../packages/laravel-fejlvarp",
+            "symlink": true
+        }
+```
+- Use local package
+```composer
+        "tvup/laravel-fejlvarp": "@dev"
+```
+```bash
+sail composer update tvup/laravel-fejlvarp
+```
+Now you don't need to run composer update each time you change something in the package.
+(Remember to set back yml- and composer-file before pushing anything)
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
@@ -173,6 +205,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 - [Torben Evald Hansen](https://github.com/tvup)
+- [Lars Christian Schou](https://github.com/negoziator)
 - [Troels Knak-Nielsen](https://github.com/troelskn)
 - [All Contributors](../../contributors)
 
