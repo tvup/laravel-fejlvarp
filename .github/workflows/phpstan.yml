@@ -23,9 +23,7 @@ jobs:
           coverage: none
 
       - name: Install composer dependencies
-        uses: php-actions/composer@v6
-        with:
-          php_version: ${{ env.phpversion }}
+        uses: ramsey/composer-install@v1
 
       - name: Run PHPStan
         run: ./vendor/bin/phpstan --error-format=github
