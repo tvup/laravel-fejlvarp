@@ -4,6 +4,28 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v11.1.3 - 2024-07-27
+
+### What's Changed
+
+* Update README and refactor time functions (#40) by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/41
+
+**Enhancements:**
+
+- **Documentation Update:** Acknowledged [negoziator](https://github.com/negoziator) for contributions in README.md.
+- **New Section in README:** Added detailed instructions for local development and testing of `laravel-fejlvarp` through a Laravel application, including Docker setup and Composer configuration.
+
+**Codebase Changes:**
+
+- **Timezone Configuration:** Removed hardcoded timezone settings. The package now defaults to using the application's configured timezone, giving the implementing application full control over timezone settings.
+- **Removal of Carbon Dependency:** Replaced usage of `Carbon` with the native `now()` helper for handling date and time, enhancing compatibility and reducing external dependencies.
+
+**Contributors:**
+
+- Added Lars Christian Schou to `composer.json` as a contributor to the project.
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v11.1.2...v11.1.3
+
 ## v11.1.2 - 2024-07-27
 
 ### What's Changed
