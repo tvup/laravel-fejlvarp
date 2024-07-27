@@ -24,7 +24,7 @@
         }
     ],
     "require": {
-        "php": ">=8.2 <8.3",
+        "php": "^8.2",
         "laravel/framework": "^9.47|^10|^11",
         "nesbot/carbon": "^2|^3",
         "spatie/laravel-package-tools": "^1.16"
