@@ -54,7 +54,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "if [ -f ./vendor/orchestra/testbench-core/laravel/package.php ]; then @php ./vendor/bin/testbench package:discover --ansi; fi"
+            "php -r \"if (file_exists('vendor/orchestra/testbench-core/laravel/package.php')) { passthru('php vendor/bin/testbench package:discover --ansi'); }\""
         ],
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
