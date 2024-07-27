@@ -42,6 +42,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          set -e
           composer require "laravel/framework:${{ matrix.php-laravel-testbench.laravel }}"
           composer require "orchestra/testbench:${{ matrix.php-laravel-testbench.testbench }}" --dev
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
