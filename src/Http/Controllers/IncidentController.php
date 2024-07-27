@@ -2,7 +2,6 @@
 
 namespace Tvup\LaravelFejlvarp\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
