@@ -2,7 +2,6 @@
 
 namespace Tvup\LaravelFejlvarp\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
@@ -154,7 +153,7 @@ class IncidentController
             }
 
             $incident->resolved_at = null;
-            $incident->last_seen_at = Carbon::now('Europe/Copenhagen');
+            $incident->last_seen_at = now();
             $incident->subject = $subject;
             $data = json_decode($data, true);
             $incident->data = gettype($data) === 'array' ? $data : [];

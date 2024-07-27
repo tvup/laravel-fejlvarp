@@ -2,7 +2,6 @@
 
 namespace Tvup\LaravelFejlvarp\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -48,7 +47,7 @@ class IncidentController
     {
         /** @var Incident $incident */
         $incident = Incident::whereHash($hash)->firstOrFail();
-        $incident->resolved_at = Carbon::now('Europe/Copenhagen');
+        $incident->resolved_at = now();
         $incident->save();
 
         return back();
@@ -63,7 +62,7 @@ class IncidentController
 
     private function fejlvarp_prune_old() : void
     {
-        Incident::where('last_seen_at', '<', Carbon::now('Europe/Copenhagen')->subDay())->whereNull('resolved_at')->delete();
+        Incident::where('last_seen_at', '<', now()->subDay())->whereNull('resolved_at')->delete();
     }
 
     private function fejlvarp_find_incident(string $hash) : Incident
