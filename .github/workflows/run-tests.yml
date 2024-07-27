@@ -42,16 +42,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          if [ ${{ matrix.os }} = 'ubuntu-latest' ]; then
+          if (${{ matrix.os }} -eq 'ubuntu-latest') {
             set -e
             composer require "laravel/framework:${{ matrix.php-laravel-testbench.laravel }}" || { echo 'Installing Laravel framework failed' ; exit 1; }
             composer require "orchestra/testbench:${{ matrix.php-laravel-testbench.testbench }}" --dev || { echo 'Installing Orchestra Testbench failed' ; exit 1; }
             composer update --${{ matrix.stability }} --prefer-dist --no-interaction || { echo 'Composer update failed' ; exit 1; }
-          else
+          } else {
             composer require "laravel/framework:${{ matrix.php-laravel-testbench.laravel }}" || exit 1
             composer require "orchestra/testbench:${{ matrix.php-laravel-testbench.testbench }}" --dev || exit 1
             composer update --${{ matrix.stability }} --prefer-dist --no-interaction || exit 1
-          fi
+          }
+        shell: pwsh
 
       - name: Execute tests
         run: vendor/bin/pest
