@@ -215,7 +215,7 @@
             <pre>{!! $incident->data['error']['trace'] !!}</pre>
         @endif
 
-        @if(isset($incident->data['environment']['SERVER']))
+        @if(isset($incident->data['environment']['SERVER']) && isset($incident->data['environment']['SERVER']['HTTP_HOST']))
             <h2>Request Synopsis</h2>
             <table class="definitionlist">
                 <tbody>
@@ -250,6 +250,26 @@
         @if (isset($incident->data['environment']))
             <h2>Request Context</h2>
             <pre>{!! var_export($incident->data['environment'], true) !!}</pre>
+        @endif
+
+        @if (isset($incident->data['queries']) && count($incident->data['queries'])>0)
+            <div class="py-3">
+                <h2>Database Queries</h2>
+                @forelse($incident->data['queries'] as $query)
+                    <dl class="mt-1 border dark:border-gray-800">
+                        <div class="flex items-center gap-2 dark:border-gray-800">
+                            <div class="flex-none px-5 py-1 border-r dark:border-gray-800 lg:w-[12rem]">
+                                <span>{{$query['connectionName']}}</span>
+                                <span class="text-xs text-gray-500">({{$query['time']}} ms)</span>
+                            </div>
+                            <span class="min-w-0 flex-grow">
+                            <pre class="overflow-y-hidden text-xs lg:text-sm"><code class="px-5">{{\Illuminate\Support\Str::replaceArray('?' , $query['bindings'], $query['sql'])}}</code></pre>
+                        </span>
+                        </div>
+                    </dl>
+                @empty
+                @endforelse
+            </div>
         @endif
 
         @if (!isset($incident->data['error']['type']) && !isset($incident->data['environment']))

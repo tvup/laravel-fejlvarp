@@ -3,6 +3,7 @@
 namespace Tvup\LaravelFejlvarp\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as LaravelExceptionHandler;
+use Illuminate\Foundation\Exceptions\Renderer\Listener;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -70,6 +71,7 @@ class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
                     'SERVER' => $_SERVER ?: null,
                     'SESSION' => request()->hasSession() ? request()->session()->all() : null,
                 ],
+                'queries' => app(Listener::class)->queries(),
             ], JSON_THROW_ON_ERROR),
         ];
         $request = Request::create(
