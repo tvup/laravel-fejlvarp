@@ -18,11 +18,11 @@ jobs:
         stability: [prefer-lowest, prefer-stable]
         include:
           - laravel: 9.*
-            testbench: 8.*
+            testbench: 7.*
           - laravel: 10.*
             testbench: 8.*
           - laravel: 11.*
-            testbench: 8.*
+            testbench: 9.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
