@@ -59,7 +59,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "php -r \"if (file_exists('vendor/orchestra/testbench-core/laravel/package.php')) { passthru('php vendor/bin/testbench package:discover --ansi'); }\""
+            "php -r \"if (file_exists('vendor/orchestra/testbench-core/composer.json')) { passthru('php vendor/bin/testbench package:discover --ansi'); }\""
         ],
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
