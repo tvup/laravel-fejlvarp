@@ -31,14 +31,14 @@
     ],
     "require": {
         "php": "^8.0.2",
-        "laravel/framework": "^9.52.16|^10|^11",
+        "laravel/framework": "^9.47|^10|^11",
         "nesbot/carbon": "^2|^3",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "ext-curl": "*",
         "friendsofphp/php-cs-fixer": "^3.35",
-        "larastan/larastan": "^2.9",
+        "larastan/larastan": "^2.4.0",
         "nunomaduro/collision": "^6|^7|^8",
         "orchestra/testbench": "^7|^8.14.1|^9",
         "pestphp/pest": "^1.22.1|^2|^3",
