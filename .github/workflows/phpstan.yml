@@ -2,9 +2,6 @@ name: PHPStan
 
 on: [push]
 
-permissions:
-  contents: write
-
 jobs:
   phpstan:
     name: phpstan
