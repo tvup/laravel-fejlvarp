@@ -4,6 +4,50 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v11.1.2 - 2024-07-27
+
+### What's Changed
+
+* Compatibility clarified: PHP versions >8.0.2 and 8.3+ by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/31
+* Modified PHP CS Fixer workflow to use --dry-run instead of committing changes automatically
+
+### Release Summary
+
+This release clarifies and documents the specific requirements and compatibility for our project, ensuring they are explicitly defined and understood by all users and contributors. The key updates include:
+
+1. **PHP Version Requirements:**
+   
+   - The minimum PHP version requirement is now explicitly set to 8.0.2, indicating the project's reliance on features available from this version onward. Official support is confirmed for PHP versions 8.0.2, 8.1, 8.2, and 8.3, ensuring optimal functionality across these environments.
+   - The package now officially supports PHP version 8.0.2 and above, with updated PHP version constraints and verification of dependency compatibility to accommodate these versions.
+   
+2. **Laravel Compatibility:**
+   
+   - Compatibility with Laravel versions ^9.47, 10.*, and 11.* is now explicitly documented, along with the corresponding `orchestra/testbench` versions (7.*, 8.*, 9.* respectively). This clarifies the frameworks and testing environments that the project supports.
+   
+3. **Required PHP Extensions:**
+   
+   - The requirement for the `ext-curl` extension is now explicitly stated in `require-dev`. This extension is necessary due to its dependency in `spatie/laravel-ray` and `spatie/ray`. Documenting this requirement helps prevent potential runtime errors during development and testing.
+   
+4. **Testing and CI/CD Enhancements:**
+   
+   - The GitHub Actions workflow has been enhanced to test a comprehensive matrix of PHP versions (8.0.2 to 8.3), Laravel versions (^9.47, 10.*, 11.*), and `testbench` versions (7.*, 8.*, 9.*) across multiple operating systems (Ubuntu and Windows).
+   - Adjustments ensure that `testbench package:discover` only runs when dev dependencies are present, using a PHP-based check.
+   
+5. **General Improvements:**
+   
+   - `composer.json` has been updated to reflect the new minimum PHP version and the addition of `ext-curl` in `require-dev`.
+   - The PHP CS Fixer workflow has been adjusted to remove the auto-commit of fixed styling changes. The workflow now runs with the `--dry-run` flag, ensuring that no changes are automatically committed. This adjustment provides greater control over code style corrections and allows developers to review changes before committing.
+   
+
+These updates clarify the project's existing requirements, provide explicit documentation, and ensure consistent understanding across all development and deployment environments. Additionally, they enhance our CI/CD processes to ensure better coverage and reliability while keeping the package up-to-date with the latest PHP developments and ready for future versions.
+
+### Breaking Changes
+
+This release aims to clarify and disallow certain combinations that may have been possible previously, though unlikely. It is possible that some edge cases, particularly with Laravel versions from 9.0.0 up to, but not including, 9.47.0, may have allowed a set of requirements and installations that are no longer permissible as of this release.
+**We expect no breaking changes but please be aware and report any issues if they arise.**
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v11.1.1...v11.1.2
+
 ## v11.1.1 - 2024-06-30
 
 ### What's Changed
