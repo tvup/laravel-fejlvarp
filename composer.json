@@ -7,6 +7,7 @@
         "laravel-fejlvarp",
         "fejlvarp",
         "troelskn",
+        "negoziator",
         "tvup"
     ],
     "homepage": "https://github.com/tvup/laravel-fejlvarp",
