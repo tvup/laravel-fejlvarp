@@ -4,6 +4,63 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v11.1.4 - 2024-07-27
+
+### What's Changed
+
+* Update actions/checkout action to v4 by @renovate in https://github.com/tvup/laravel-fejlvarp/pull/19
+* Update stefanzweifel/git-auto-commit-action action to v5 by @renovate in https://github.com/tvup/laravel-fejlvarp/pull/18
+* Refactoring, Dependency Management, and Enhanced Logging Features (#42) by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/43
+* Add user data to incident reports (#44) by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/45
+
+#### Enhancements and Updates
+
+1. **GitHub Actions Workflow Enhancements**:
+   
+   - Updated the `actions/checkout` action from version 3 to 4 across multiple workflows for improved performance and security.
+   - Removed unnecessary permissions in the `php-cs-fixer.yml` workflow, enhancing security.
+   
+2. **PHPStan Workflow Improvements**:
+   
+   - Updated PHP version to `8.3` for PHPStan analysis.
+   - Replaced `nunomaduro/larastan` with `larastan/larastan`, ensuring up-to-date static analysis capabilities.
+   
+3. **Testing Workflow Enhancements**:
+   
+   - Introduced environment-specific handling for Composer dependencies installation in the `run-tests.yml` workflow, with specific commands for Linux and Windows environments.
+   - Improved error handling during the installation of dependencies to provide clearer feedback in case of issues.
+   
+4. **Changelog Update Automation**:
+   
+   - Upgraded `stefanzweifel/git-auto-commit-action` to version 5 in the `update-changelog.yml` workflow for improved performance and bug fixes.
+   
+5. **New Features in Application**:
+   
+   - Introduced `IncidentFactory` for streamlined creation and management of `Incident` models, supporting better testing and data management.
+   
+6. **Database Query Logging**:
+   
+   - Added logging for database queries in incident reports, providing detailed insights into query performance and database interactions.
+   
+7. **Apllication data logging**:
+   
+   - Enhanced error logging by including authenticated user data in the incident reports if applicable. This includes capturing user-related data in the error context.
+   
+8. **Additional Tags and Metadata**:
+   
+   - Added "negoziator" to the list of keywords in `composer.json`, acknowledging contribution.
+   
+9. **Miscellaneous:**
+   
+   - Refined the validation rules return type in `IncidentStoreRequest.php` for improved type hinting and code clarity.
+   - Various minor fixes and updates to ensure compatibility with Laravel 10 and improved error handling.
+   - Fixed minor code documentation issues, enhancing clarity and accuracy in codebase annotations.
+   
+
+This release focuses on enhancing the robustness, security, and maintainability of the project, providing a better foundation for future development, improving compatibility, enhancing error handling, and updating dependencies to leverage the latest features and best practices in the Laravel ecosystem.
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v11.1.3...v11.1.4
+
 ## v11.1.3 - 2024-07-27
 
 ### What's Changed
