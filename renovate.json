@@ -1,8 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "baseBranches": ["master"],
+  "baseBranches": [
+    "master"
+  ],
   "extends": [
-    "config:base",
+    "config:recommended",
     ":disableRateLimiting",
     "docker:disable"
   ],
@@ -11,26 +13,38 @@
   },
   "packageRules": [
     {
-      "packagePatterns": ["*"],
-      "updateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "groupName": "all patch dependencies",
       "groupSlug": "update-patch-dependencies",
       "enabled": true,
-      "automerge": false
+      "automerge": false,
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
-      "packagePatterns": ["*"],
-      "updateTypes": ["minor"],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "groupName": "all minor dependencies",
       "groupSlug": "update-minor-dependencies",
       "enabled": true,
-      "automerge": false
+      "automerge": false,
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
-      "packagePatterns": ["*"],
-      "updateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "enabled": true,
-      "automerge": false
+      "automerge": false,
+      "matchPackageNames": [
+        "*"
+      ]
     }
   ]
 }
