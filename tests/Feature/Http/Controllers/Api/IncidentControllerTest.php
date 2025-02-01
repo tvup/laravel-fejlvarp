@@ -1,11 +1,11 @@
 <?php
+
 namespace Tests\Feature\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Http;
-use Tvup\LaravelFejlvarp\Incident;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
+use Illuminate\Support\Facades\Http;
 use function Pest\testDirectory;
+use Tvup\LaravelFejlvarp\Incident;
 
 uses(RefreshDatabase::class);
 
@@ -19,9 +19,8 @@ it('will include a javascript to lookup data about the ip-address', function () 
 
     // Assert
     $response->assertOk();
-    $response->assertViewHas('incident', fn($i) => $i->hash === $incident->hash);
+    $response->assertViewHas('incident', fn ($i) => $i->hash === $incident->hash);
     $response->assertSee('/api/geoip?ip=89.150.133.237&callback=geoipCallback', false);
-
 });
 
 it('can fetch info about an IP-address and return as a javascript-function', function () {

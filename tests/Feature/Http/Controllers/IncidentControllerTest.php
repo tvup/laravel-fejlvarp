@@ -1,8 +1,9 @@
 <?php
+
 namespace Tests\Feature\Http\Controllers;
 
-use Tvup\LaravelFejlvarp\Incident;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tvup\LaravelFejlvarp\Incident;
 
 uses(RefreshDatabase::class);
 
@@ -13,7 +14,7 @@ it('can retrieve all unresolved incidents', function () {
     $response = $this->get(route('incidents.index'));
 
     $response->assertOk();
-    $response->assertViewHas('incidents', fn($incidents) => $incidents->count() === 2);
+    $response->assertViewHas('incidents', fn ($incidents) => $incidents->count() === 2);
 });
 
 it('can show a single incident', function () {
@@ -22,7 +23,7 @@ it('can show a single incident', function () {
     $response = $this->get(route('incident.show', $incident->hash));
 
     $response->assertOk();
-    $response->assertViewHas('incident', fn($i) => $i->hash === $incident->hash);
+    $response->assertViewHas('incident', fn ($i) => $i->hash === $incident->hash);
 });
 
 it('can mark an incident as resolved', function () {

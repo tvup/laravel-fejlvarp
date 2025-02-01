@@ -35,7 +35,7 @@ class TestCase extends Orchestra
             'foreign_key_constraints' => true,
         ]);
 
-        $migration = include __DIR__.'/../database/migrations/create_incidents_table.php.stub';
+        $migration = include __DIR__ . '/../database/migrations/create_incidents_table.php.stub';
         $migration->up();
     }
 }
