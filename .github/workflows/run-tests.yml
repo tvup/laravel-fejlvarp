@@ -36,7 +36,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-laravel-testbench.php }}
-          extensions: curl, mbstring, pcntl, pdo, gd, fileinfo
+          extensions: curl, mbstring, pcntl, pdo, sqlite, gd, fileinfo
           coverage: none
 
       - name: Setup problem matchers
