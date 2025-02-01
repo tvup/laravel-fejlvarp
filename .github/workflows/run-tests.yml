@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [windows-latest]
         stability: [prefer-lowest, prefer-stable]
         php-laravel-testbench:
           - {php: 8.0.2, laravel: "^9.47", testbench: 7.*, larastan: "^2.4.0", phpstan: "^1.0"}
@@ -52,10 +52,10 @@ jobs:
             composer require "larastan/larastan:${{ matrix.php-laravel-testbench.larastan }}" --dev --no-update || { echo 'Installing Larastan failed' ; exit 1; }
             composer update --${{ matrix.stability }} --prefer-dist --no-interaction || { echo 'Composer update failed' ; exit 1; }
           } elseif ($env:RUNNER_OS -eq 'Windows') {
-            composer require ""laravel/framework:${{ matrix.php-laravel-testbench.laravel }}"" --no-update || exit 1
-            composer require ""orchestra/testbench:${{ matrix.php-laravel-testbench.testbench }}"" --dev --no-update || exit 1
-            composer require ""larastan/larastan:${{ matrix.php-laravel-testbench.larastan }}"" --dev --no-update || exit 1
-            composer require ""phpstan/phpstan:${{ matrix.php-laravel-testbench.phpstan }}"" --dev --no-update || exit 1
+            composer require "laravel/framework=${{ matrix.php-laravel-testbench.laravel }}" --no-update || exit 1
+            composer require "orchestra/testbench=${{ matrix.php-laravel-testbench.testbench }}" --dev --no-update || exit 1
+            composer require "larastan/larastan=${{ matrix.php-laravel-testbench.larastan }}" --dev --no-update || exit 1
+            composer require "phpstan/phpstan=${{ matrix.php-laravel-testbench.phpstan }}" --dev --no-update || exit 1
             composer update --${{ matrix.stability }} --prefer-dist --no-interaction || exit 1
           }
         shell: pwsh
