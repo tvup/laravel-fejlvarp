@@ -48,3 +48,24 @@ it('can fetch info about an IP-address and return as a javascript-function', fun
     $response->assertHeader('Content-Type', 'application/javascript');
     $response->assertOk();
 });
+
+it('can fetch info about useragent and return as a javascript-function', function () {
+    // Arrange
+    $ua = 'Mozilla%2F5.0%20%28X11%3B%20Linux%20x86_64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F132.0.0.0%20Safari%2F537.36';
+
+    // Mock the useragentstring API response
+    $useragentstringResult = file_get_contents(testDirectory('Fixtures/useragentstring.json'));
+    assertIsString($useragentstringResult);
+    $jsonDecodedUseragentstringResponse = json_decode($useragentstringResult, true);
+    assertIsArray($jsonDecodedUseragentstringResponse);
+    Http::fake([
+        'www.useragentstring.com/?getJSON=all&uas=*' => Http::response($jsonDecodedUseragentstringResponse),
+    ]);
+
+    // Act
+    $response = $this->get('/api/useragent?useragent=' . $ua . '&callback=useragentCallback');
+
+    // Assert
+    $response->assertHeader('Content-Type', 'application/javascript');
+    $response->assertOk();
+});
