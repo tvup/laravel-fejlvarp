@@ -19,7 +19,7 @@
       "groupName": "all patch dependencies",
       "groupSlug": "update-patch-dependencies",
       "enabled": true,
-      "automerge": false,
+      "automerge": true,
       "matchPackageNames": [
         "*"
       ]

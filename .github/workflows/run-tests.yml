@@ -24,6 +24,7 @@ jobs:
           - {php: 8.3, laravel: 10.*, testbench: 8.*}
           - {php: 8.2, laravel: 11.*, testbench: 9.*}
           - {php: 8.3, laravel: 11.*, testbench: 9.*}
+          - {php: 8.4, laravel: 11.*, testbench: 9.*}
 
     name: PHP ${{ matrix.php-laravel-testbench.php }} - Laravel ${{ matrix.php-laravel-testbench.laravel }} - Testbench ${{ matrix.php-laravel-testbench.testbench }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
