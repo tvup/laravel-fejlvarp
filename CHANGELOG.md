@@ -4,6 +4,14 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v11.1.7 - 2025-02-01
+
+### What's Changed
+
+* Ensure correct content-type for useragent-lookip by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/53
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v11.1.6...v11.1.7
+
 ## v11.1.6 - 2025-02-01
 
 ### What's Changed
