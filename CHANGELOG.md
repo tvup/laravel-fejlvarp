@@ -4,6 +4,16 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v11.1.6 - 2025-02-01
+
+### What's Changed
+
+* update phpstan and check tests by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/50
+* Update dependency larastan/larastan to v3.0.2 by @renovate in https://github.com/tvup/laravel-fejlvarp/pull/51
+* Update larastan to include version 3.0.2 by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/52
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v11.1.5...v11.1.6
+
 ## v11.1.5 - 2025-02-01
 
 #### **Description:**
