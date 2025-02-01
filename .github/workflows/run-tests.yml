@@ -15,18 +15,18 @@ jobs:
         os: [windows-latest]
         stability: [prefer-lowest, prefer-stable]
         php-laravel-testbench:
-          - {php: 8.0.2, laravel: ^9.47, testbench: 7.*, larastan: ^2.4.0, phpstan: 1.*}
-          - {php: 8.1, laravel: ^9.47, testbench: 7.*, larastan: ^2.4.0, phpstan: 1.*}
-          - {php: 8.2, laravel: ^9.47, testbench: 7.*, larastan: ^2.4.0, phpstan: 1.*}
-          - {php: 8.3, laravel: ^9.47, testbench: 7.*, larastan: ^2.4.0, phpstan: 1.*}
-          - {php: 8.1, laravel: 10.*, testbench: 8.*, larastan: ^2.4.0, phpstan: 1.*}
-          - {php: 8.2, laravel: 10.*, testbench: 8.*, larastan: ^2.4.0, phpstan: 1.*}
-          - {php: 8.3, laravel: 10.*, testbench: 8.*, larastan: ^2.4.0, phpstan: 1.*}
-          - {php: 8.2, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, phpstan: 2.1.2}
-          - {php: 8.3, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, phpstan: 2.1.2}
-          - {php: 8.4, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, phpstan: 2.1.2}
+          - {php: 8.0.2, laravel: ^9.47, testbench: 7.*, larastan: ^2.4.0, testbenchc: 7.*}
+          - {php: 8.1, laravel: ^9.47, testbench: 7.*, larastan: ^2.4.0, testbenchc: 7.*}
+          - {php: 8.2, laravel: ^9.47, testbench: 7.*, larastan: ^2.4.0, testbenchc: 7.*}
+          - {php: 8.3, laravel: ^9.47, testbench: 7.*, larastan: ^2.4.0, testbenchc: 7.*}
+          - {php: 8.1, laravel: 10.*, testbench: 8.*, larastan: ^2.4.0, testbenchc: 8.*}
+          - {php: 8.2, laravel: 10.*, testbench: 8.*, larastan: ^2.4.0, testbenchc: 8.*}
+          - {php: 8.3, laravel: 10.*, testbench: 8.*, larastan: ^2.4.0, testbenchc: 8.*}
+          - {php: 8.2, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, testbenchc: 9.1.4}
+          - {php: 8.3, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, testbenchc: 9.1.4}
+          - {php: 8.4, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, testbenchc: 9.1.4}
 
-    name: PHP ${{ matrix.php-laravel-testbench.php }} - Laravel ${{ matrix.php-laravel-testbench.laravel }} - Testbench ${{ matrix.php-laravel-testbench.testbench }} - Larastan ${{ matrix.php-laravel-testbench.larastan }} - PHPStan ${{ matrix.php-laravel-testbench.phpstan }} - ${{ matrix.stability }} - ${{ matrix.os }}
+    name: PHP ${{ matrix.php-laravel-testbench.php }} - Laravel ${{ matrix.php-laravel-testbench.laravel }} - Testbench ${{ matrix.php-laravel-testbench.testbench }} - Larastan ${{ matrix.php-laravel-testbench.larastan }} - Testbench-core ${{ matrix.php-laravel-testbench.testbenchc }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
@@ -55,7 +55,7 @@ jobs:
             composer require "laravel/framework:${{ matrix.php-laravel-testbench.laravel }}" --no-update || exit 1
             composer require "orchestra/testbench:${{ matrix.php-laravel-testbench.testbench }}" --dev --no-update || exit 1
             composer require "larastan/larastan:${{ matrix.php-laravel-testbench.larastan }}" --dev --no-update || exit 1
-            composer require "phpstan/phpstan:${{ matrix.php-laravel-testbench.phpstan }}" --dev --no-update || exit 1
+            composer require "orchestra/testbench-core:${{ matrix.php-laravel-testbench.testbenchc }}" --dev --no-update || exit 1
             composer update --${{ matrix.stability }} --prefer-dist --no-interaction || exit 1
           }
         shell: pwsh
