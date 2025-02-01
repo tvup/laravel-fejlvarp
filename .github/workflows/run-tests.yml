@@ -26,7 +26,7 @@ jobs:
           - {php: 8.3, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0}
           - {php: 8.4, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0}
 
-    name: PHP ${{ matrix.php-laravel-testbench.php }} - Laravel ${{ matrix.php-laravel-testbench.laravel }} - Testbench ${{ matrix.php-laravel-testbench.testbench }} - ${{ matrix.stability }} - ${{ matrix.os }}
+    name: PHP ${{ matrix.php-laravel-testbench.php }} - Laravel ${{ matrix.php-laravel-testbench.laravel }} - Testbench ${{ matrix.php-laravel-testbench.testbench }} - Larastan ${{ matrix.php-laravel-testbench.larastan }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
