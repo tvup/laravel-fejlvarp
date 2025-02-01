@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Tvup\LaravelFejlvarp\Http\Requests\IncidentStoreRequest;
 use Tvup\LaravelFejlvarp\Incident;
@@ -66,12 +67,12 @@ class IncidentController
             $seconds = 60 * 60 * 24 * 30;
             $data = (array) Cache::remember('ip-' . $ip, $seconds, function () use ($ip) {
                 $url = 'http://api.ipstack.com/' . rawurlencode($ip) . '?access_key=' . $this->ipStackAccessKey;
-                $json = file_get_contents($url);
-                if ($json === false) {
-                    throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json: ' . $json);
+                $data = Http::get($url)->json();
+                if ($data === []) {
+                    throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json');
                 }
 
-                return json_decode($json, true);
+                return $data;
             });
         }
         $response = $data ? [
@@ -79,12 +80,11 @@ class IncidentController
             'region_name' => $data['region_name'],
         ] : null;
 
-        header('Content-Type: text/javascript');
         $content = !empty($response) ? json_encode($response) : null;
         if (isset($callback) && gettype($callback) == 'string') {
-            return response($callback . '(' . ($content ?: '{}') . ');');
+            return response($callback . '(' . ($content ?: '{}') . ');')->header('Content-Type', 'application/javascript');
         } else {
-            return response($content ?: '{}');
+            return response($content ?: '{}')->header('Content-Type', 'application/javascript');
         }
     }
 

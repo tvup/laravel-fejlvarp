@@ -28,9 +28,14 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_laravelfejlvarp_table.php.stub';
+        config()->set('database.connections.testing', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+            'foreign_key_constraints' => true,
+        ]);
+
+        $migration = include __DIR__ . '/../database/migrations/create_incidents_table.php.stub';
         $migration->up();
-        */
     }
 }

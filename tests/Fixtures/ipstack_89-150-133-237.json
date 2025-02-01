@@ -1,0 +1,35 @@
+{
+  "ip": "89.150.133.237",
+  "type": "ipv4",
+  "continent_code": "EU",
+  "continent_name": "Europe",
+  "country_code": "DK",
+  "country_name": "Denmark",
+  "region_code": "85",
+  "region_name": "Zealand",
+  "city": "Holbæk",
+  "zip": "4532",
+  "latitude": 55.7328987121582,
+  "longitude": 11.547599792480469,
+  "msa": null,
+  "dma": null,
+  "radius": null,
+  "ip_routing_type": "fixed",
+  "connection_type": "dsl",
+  "location": {
+    "geoname_id": 2620147,
+    "capital": "Copenhagen",
+    "languages": [
+      {
+        "code": "da",
+        "name": "Danish",
+        "native": "Dansk"
+      }
+    ],
+    "country_flag": "https://assets.ipstack.com/flags/dk.svg",
+    "country_flag_emoji": "\ud83c\udde9\ud83c\uddf0",
+    "country_flag_emoji_unicode": "U+1F1E9 U+1F1F0",
+    "calling_code": "45",
+    "is_eu": true
+  }
+}
