@@ -307,7 +307,7 @@
     @if ($geoip)
         <script type="text/javascript">
             function geoipCallback(data) {
-                document.getElementById("geoip").innerHTML = data.country_name ? ("[" + data.country_name + (data.region_name && (" - " + data.region_name)) + "]") : "";
+                document.getElementById("geoip").innerHTML = data.country_name ? ("[" + data.country_flag_emoji + data.country_name + (data.region_name && (" - " + data.region_name)) + "]") : "";
             }
         </script>
         <script type="text/javascript"
