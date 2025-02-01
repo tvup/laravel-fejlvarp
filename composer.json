@@ -31,7 +31,6 @@
     ],
     "require": {
         "php": "^8.0.2",
-        "ext-curl": "*",
         "ext-mbstring": "*",
         "ext-pdo": "*",
         "ext-gd": "*",
@@ -50,8 +49,7 @@
         "pestphp/pest": "^1.22.1|^2|^3",
         "pestphp/pest-plugin-laravel": "^1.4|^2|^3",
         "phpstan/phpstan-phpunit": "^1.3",
-        "phpunit/phpunit": "^9|^10|^11",
-        "spatie/laravel-ray": "^1.33"
+        "phpunit/phpunit": "^9|^10|^11"
     },
     "autoload": {
         "psr-4": {
