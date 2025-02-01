@@ -14,7 +14,9 @@ class IncidentController
 
     public function __construct()
     {
-        $this->server_name = config('app.url') . '/api/incidents';
+        $config = config('app.url');
+        assert(is_string($config));
+        $this->server_name = $config . '/api/incidents';
     }
 
     public function index(Request $request) : View
