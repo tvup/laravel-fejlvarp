@@ -22,9 +22,9 @@ jobs:
           - {php: 8.1, laravel: 10.*, testbench: 8.*, larastan: ^2.4.0, phpstan: 1.*}
           - {php: 8.2, laravel: 10.*, testbench: 8.*, larastan: ^2.4.0, phpstan: 1.*}
           - {php: 8.3, laravel: 10.*, testbench: 8.*, larastan: ^2.4.0, phpstan: 1.*}
-          - {php: 8.2, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, phpstan: 2.0.2}
-          - {php: 8.3, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, phpstan: 2.0.2}
-          - {php: 8.4, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, phpstan: 2.0.2}
+          - {php: 8.2, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, phpstan: 2.0.3}
+          - {php: 8.3, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, phpstan: 2.0.3}
+          - {php: 8.4, laravel: 11.*, testbench: ^9.1, larastan: ^3.0.0, phpstan: 2.0.3}
 
     name: PHP ${{ matrix.php-laravel-testbench.php }} - Laravel ${{ matrix.php-laravel-testbench.laravel }} - Testbench ${{ matrix.php-laravel-testbench.testbench }} - Larastan ${{ matrix.php-laravel-testbench.larastan }} - PHPStan ${{ matrix.php-laravel-testbench.phpstan }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
