@@ -22,5 +22,10 @@ jobs:
       - name: Install composer dependencies
         uses: ramsey/composer-install@v1
 
+      - name: Install dependencies
+        run: |
+            composer require "larastan/larastan:^v3.0.0" --dev --no-update || { echo 'Installing Larastan failed' ; exit 1; }
+        shell: pwsh
+
       - name: Run PHPStan
         run: ./vendor/bin/phpstan --error-format=github
