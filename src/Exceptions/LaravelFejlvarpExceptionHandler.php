@@ -48,7 +48,9 @@ class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
         // Generate unique hash from message + file + line number
         // We strip out revision-part of the file name.
         // Assuming a standard capistrano deployment path, this will prevent duplicates across deploys.
-        $hash = config('app.name')
+        $appName = config('app.name');
+        assert(is_string($appName));
+        $hash = $appName
             . $exception->getMessage()
             . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile())
             . $exception->getLine();

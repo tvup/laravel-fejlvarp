@@ -18,7 +18,7 @@ parameters:
         - '#Call to an undefined method PHPUnit\\Framework\\TestCase\:\:get\(\).#'
         - '#Call to an undefined method PHPUnit\\Framework\\TestCase\:\:post\(\).#'
         - '#Parameter \#1 \$callback of static method Illuminate\\Database\\Eloquent\\Factories\\Factory\<Illuminate\\Database\\Eloquent\\Model\>\:\:guessFactoryNamesUsing\(\) expects callable\(class-string\<Illuminate\\Database\\Eloquent\\Model\>\)\: class-string\<Illuminate\\Database\\Eloquent\\Factories\\Factory\>, Closure\(string\)\: non-falsy-string given.#'
-#        - '#Unable to resolve the template type TKey in call to function collect#'
+        - "#Called 'env' outside of the config directory which returns null when the config is cached, use 'config'.#"
 #        - '#Unable to resolve the template type TValue in call to function collect#'
 #        - '#no value type specified in iterable type array#'
 #

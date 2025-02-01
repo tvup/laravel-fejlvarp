@@ -25,7 +25,9 @@ class IncidentController
 
     public function __construct()
     {
-        $this->server_name = config('app.url') . '/incidents';
+        $appUrl = config('app.url');
+        assert(is_string($appUrl));
+        $this->server_name = $appUrl . '/incidents';
         $this->pushover_apitoken = config('fejlvarp.pushover.apitoken');
         $this->pushover_userkey = config('fejlvarp.pushover.userkey');
         $this->slack_webhook_url = config('fejlvarp.slack.webhook_url');
@@ -66,7 +68,9 @@ class IncidentController
         if ($this->ipStackAccessKey && (!$this->ip_in_range($ip, '10.0.0.0/8') && !$this->ip_in_range($ip, '172.16.0.0/12') && !$this->ip_in_range($ip, '192.168.0.0/16'))) {
             $seconds = 60 * 60 * 24 * 30;
             $data = (array) Cache::remember('ip-' . $ip, $seconds, function () use ($ip) {
-                $url = 'http://api.ipstack.com/' . rawurlencode($ip) . '?access_key=' . $this->ipStackAccessKey;
+                $ipStackAccessKey = $this->ipStackAccessKey;
+                assert(is_string($ipStackAccessKey));
+                $url = 'http://api.ipstack.com/' . rawurlencode($ip) . '?access_key=' . $ipStackAccessKey;
                 $data = Http::get($url)->json();
                 if ($data === []) {
                     throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json');
@@ -102,11 +106,13 @@ class IncidentController
         }
         $callback = $request->query('callback');
         $url = 'http://www.useragentstring.com/?getJSON=all&uas=' . rawurlencode($useragent);
+        $appName = config('app.name');
+        assert(is_string($appName));
         $opts = [
             'http' => [
                 'method' => 'GET',
                 'header' => "Accept: application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5\r\n" .
-                    'User-Agent: ' . config('app.name') . "\r\n" .
+                    'User-Agent: ' . $appName . "\r\n" .
                     "Accept-Language: en-US,en;q=0.8\r\n" .
                     "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\r\n",
             ],
@@ -214,7 +220,9 @@ class IncidentController
     {
         if (isset($this->slack_webhook_url) && $this->slack_webhook_url) {
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $this->slack_webhook_url);
+            $slackUrl = $this->slack_webhook_url;
+            assert(is_string($slackUrl));
+            curl_setopt($curl, CURLOPT_URL, $slackUrl);
             curl_setopt($curl, CURLOPT_HEADER, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

@@ -5,10 +5,10 @@ namespace Tests\Feature\Http\Controllers\Api;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use function Pest\testDirectory;
-use Tvup\LaravelFejlvarp\Incident;
 use function PHPUnit\Framework\assertIsArray;
 use function PHPUnit\Framework\assertIsString;
 use function PHPUnit\Framework\assertNotFalse;
+use Tvup\LaravelFejlvarp\Incident;
 
 uses(RefreshDatabase::class);
 
