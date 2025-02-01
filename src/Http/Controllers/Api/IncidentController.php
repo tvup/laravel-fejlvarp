@@ -108,38 +108,31 @@ class IncidentController
         $url = 'http://www.useragentstring.com/?getJSON=all&uas=' . rawurlencode($useragent);
         $appName = config('app.name');
         assert(is_string($appName));
-        $opts = [
-            'http' => [
-                'method' => 'GET',
-                'header' => "Accept: application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5\r\n" .
-                    'User-Agent: ' . $appName . "\r\n" .
-                    "Accept-Language: en-US,en;q=0.8\r\n" .
-                    "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\r\n",
-            ],
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-            ],
-        ];
-        $context = stream_context_create($opts);
-        $raw = file_get_contents($url, false, $context);
-        if ($raw === false) {
-            throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json: ' . $raw);
+
+        $headers = ['Accept' => 'application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5',
+                    'User-Agent' => $appName,
+                    'Accept-Language' => 'en-US,en;q=0.8',
+                    'Accept-Charset' => 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+            ];
+
+        $useragentstringResponse = Http::withHeaders($headers)->withoutVerifying()->get($url);
+
+        if ($useragentstringResponse->status() !== 200) {
+            throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json');
         }
-        $data = (array) json_decode($raw, true);
+        $data = (array) json_decode($useragentstringResponse, true);
         $response = [];
         $response['name'] = $data['agent_name'];
         $response['type'] = $data['agent_type'];
         $response['info'] = implode(' / ', array_filter(array_values($data)));
-        header('Content-Type: text/javascript');
         $content = json_encode($response);
         if ($content === false) {
             throw new \Exception('Content couldn\'t be encoded as json: ' . implode(', ', $response));
         }
         if (isset($callback) && gettype($callback) == 'string') {
-            return response($callback . '(' . $content . ');');
+            return response($callback . '(' . $content . ');')->header('Content-Type', 'application/javascript');
         } else {
-            return response($content);
+            return response($content)->header('Content-Type', 'application/javascript');
         }
     }
 

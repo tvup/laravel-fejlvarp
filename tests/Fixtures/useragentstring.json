@@ -1,0 +1,14 @@
+{
+  "agent_type": "Browser",
+  "agent_name": "Chrome",
+  "agent_version": "132.0.0.0",
+  "os_type": "Linux",
+  "os_name": "Linux",
+  "os_versionName": "",
+  "os_versionNumber": "",
+  "os_producer": "",
+  "os_producerURL": "",
+  "linux_distibution": "Null",
+  "agent_language": "",
+  "agent_languageTag": ""
+}
