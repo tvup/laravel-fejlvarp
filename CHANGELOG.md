@@ -4,6 +4,42 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v11.1.5 - 2025-02-01
+
+#### **Description:**
+
+This version introduces support for **PHP 8.4** and improves test coverage for Laravel Fejlvarp. It includes:
+
+- **Support for PHP 8.4** in the GitHub Actions workflow.
+- **Refactoring of the GeoIP lookup function** to use `Http::get()` instead of `file_get_contents()`, ensuring better error handling and maintainability.
+- **Content-Type fix for the GeoIP response**, explicitly setting it to `application/javascript`.
+- **Addition of new feature tests** for API endpoints, increasing overall test coverage.
+- **Fixture-based testing for incidents**, improving consistency in tests.
+- **Database configuration updates** for SQLite in-memory testing.
+- **Dependency updates**, including `guzzlehttp/guzzle` and `orchestra/testbench`.
+- **Allowing auto-merge for patch dependencies** in `renovate.json`.
+
+#### **Key Changes:**
+
+- **Modified:** [[.github/workflows/run-tests.yml](https://github.com/tvup/laravel-fejlvarp/blob/04cfb5433d112f492ec2932c1702bef705ed1966/.github%2Fworkflows%2Frun-tests.yml)](https://github.com/tvup/laravel-fejlvarp/blob/04cfb5433d112f492ec2932c1702bef705ed1966/.github%2Fworkflows%2Frun-tests.yml) → Added PHP 8.4 to the test matrix.
+- **Modified:** [[IncidentController.php](https://github.com/tvup/laravel-fejlvarp/blob/04cfb5433d112f492ec2932c1702bef705ed1966/src%2FHttp%2FControllers%2FApi%2FIncidentController.php)](https://github.com/tvup/laravel-fejlvarp/blob/04cfb5433d112f492ec2932c1702bef705ed1966/src%2FHttp%2FControllers%2FApi%2FIncidentController.php) → Replaced `file_get_contents()` with `Http::get()`.
+- **Added:** [[Feature tests for GeoIP lookup](https://github.com/tvup/laravel-fejlvarp/blob/04cfb5433d112f492ec2932c1702bef705ed1966/tests%2FFeature%2FHttp%2FControllers%2FApi%2FIncidentControllerTest.php)](https://github.com/tvup/laravel-fejlvarp/blob/04cfb5433d112f492ec2932c1702bef705ed1966/tests%2FFeature%2FHttp%2FControllers%2FApi%2FIncidentControllerTest.php).
+- **Added:** [[Fixture files](https://github.com/tvup/laravel-fejlvarp/tree/04cfb5433d112f492ec2932c1702bef705ed1966/tests/Fixtures)](https://github.com/tvup/laravel-fejlvarp/tree/04cfb5433d112f492ec2932c1702bef705ed1966/tests/Fixtures) for structured test data.
+- **Modified:** [[composer.json](https://github.com/tvup/laravel-fejlvarp/blob/04cfb5433d112f492ec2932c1702bef705ed1966/composer.json)](https://github.com/tvup/laravel-fejlvarp/blob/04cfb5433d112f492ec2932c1702bef705ed1966/composer.json) → Updated dependencies for PHP 8.4 compatibility.
+- **Modified:** [[TestCase.php](https://github.com/tvup/laravel-fejlvarp/blob/04cfb5433d112f492ec2932c1702bef705ed1966/tests%2FTestCase.php)](https://github.com/tvup/laravel-fejlvarp/blob/04cfb5433d112f492ec2932c1702bef705ed1966/tests%2FTestCase.php) → Configured SQLite in-memory database for tests.
+
+#### **Additional Notes:**
+
+This version ensures **forward compatibility with PHP 8.4** and strengthens test reliability by introducing **fixtures and additional test cases**. 🚀
+
+### What's Changed
+
+* Add user data to incident reports by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/44
+* Migrate renovate config by @renovate in https://github.com/tvup/laravel-fejlvarp/pull/46
+* Release 2025Q1-1 by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/48
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v11.1.4...v11.1.5
+
 ## v11.1.4 - 2024-07-27
 
 ### What's Changed
