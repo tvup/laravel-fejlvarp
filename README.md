@@ -35,7 +35,7 @@ This project supports a range of PHP and Laravel versions, tested across multipl
 |-----------------|----------------------|--------------------------------|
 | ^9.47           | 8.0.2, 8.1, 8.2, 8.3 | 7.*                            |
 | 10.*            | 8.1, 8.2, 8.3        | 8.*                            |
-| 11.*            | 8.2, 8.3             | 9.*                            |
+| 11.*            | 8.2, 8.3, 8.4        | ^9.1                           |
 
 ### Operating Systems
 The project is tested on the following operating systems:
