@@ -82,6 +82,7 @@ class IncidentController
         $response = $data ? [
             'country_name' => $data['country_name'],
             'region_name' => $data['region_name'],
+            'country_flag_emoji' => is_array($data['location']) ? $data['location']['country_flag_emoji'] : '',
         ] : null;
 
         $content = !empty($response) ? json_encode($response) : null;
