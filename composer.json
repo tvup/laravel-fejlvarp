@@ -38,6 +38,7 @@
     "require-dev": {
         "ext-curl": "*",
         "friendsofphp/php-cs-fixer": "^3.35",
+        "guzzlehttp/guzzle": "^7.0",
         "larastan/larastan": "^2.4.0",
         "nunomaduro/collision": "^6|^7|^8",
         "orchestra/testbench": "^7|^8|^9",
