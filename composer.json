@@ -33,7 +33,6 @@
         "php": "^8.0.2",
         "ext-curl": "*",
         "ext-mbstring": "*",
-        "ext-pcntl": "*",
         "ext-pdo": "*",
         "ext-gd": "*",
         "ext-fileinfo": "*",
