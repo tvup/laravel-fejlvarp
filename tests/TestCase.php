@@ -13,7 +13,7 @@ class TestCase extends Orchestra
     /**
      * @var TestResponse<Response>|null
      */
-    protected static ?TestResponse $latestResponse = null;
+    public static ?TestResponse $latestResponse = null;
 
     protected function setUp(): void
     {
