@@ -8,7 +8,7 @@ use Orchestra\Testbench\TestCase as Orchestra;
 use Symfony\Component\HttpFoundation\Response;
 use Tvup\LaravelFejlvarp\LaravelFejlvarpServiceProvider;
 
-class TestCase extends Orchestra
+abstract class TestCase extends Orchestra
 {
     /**
      * @var TestResponse<Response>|null
