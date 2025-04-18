@@ -3,11 +3,14 @@
 namespace Tvup\LaravelFejlvarp\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Testing\TestResponse;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Tvup\LaravelFejlvarp\LaravelFejlvarpServiceProvider;
 
 class TestCase extends Orchestra
 {
+    protected static ?TestResponse $latestResponse = null;
+
     protected function setUp(): void
     {
         parent::setUp();
