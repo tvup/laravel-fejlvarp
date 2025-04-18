@@ -27,7 +27,10 @@ class IncidentController
         }
         $incidents = $this->fejlvarp_select_incidents($show_all);
 
-        return view('fejlvarp::incidents.index', ['show_all' => $show_all, 'incidents' => $incidents, 'user_agent' => '', 'geoip' => '']);
+        /** @var view-string $view */
+        $view = 'fejlvarp::incidents.index';
+
+        return view($view, ['show_all' => $show_all, 'incidents' => $incidents, 'user_agent' => '', 'geoip' => '']);
     }
 
     public function show(string $hash) : View
@@ -42,7 +45,10 @@ class IncidentController
 
         $user_agent = $incident->data['environment']['SERVER']['HTTP_USER_AGENT'] ?? null;
 
-        return view('fejlvarp::incidents.show', ['incident' => $incident, 'server_name' => $this->server_name, 'user_agent' => $user_agent, 'geoip' => $geoip]);
+        /** @var view-string $view */
+        $view = 'fejlvarp::incidents.show';
+
+        return view($view, ['incident' => $incident, 'server_name' => $this->server_name, 'user_agent' => $user_agent, 'geoip' => $geoip]);
     }
 
     public function destroy(string $hash) : RedirectResponse
