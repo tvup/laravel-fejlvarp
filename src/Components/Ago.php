@@ -36,7 +36,10 @@ class Ago extends Component
      */
     public function render()
     {
-        return view('fejlvarp::components.ago');
+        /** @var view-string $view */
+        $view = 'fejlvarp::components.ago';
+
+        return view($view);
     }
 
     /**

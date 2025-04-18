@@ -5,6 +5,7 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -25,6 +26,9 @@ jobs:
           - {php: 8.2, laravel: 11.*, testbench: ^9.1, larastan: 3.*, testbenchc: 9.1.4}
           - {php: 8.3, laravel: 11.*, testbench: ^9.1, larastan: 3.*, testbenchc: 9.1.4}
           - {php: 8.4, laravel: 11.*, testbench: ^9.1, larastan: 3.*, testbenchc: 9.1.4}
+          - {php: 8.2, laravel: 12.*, testbench: ^10.0.0, larastan: 3.*, testbenchc: 10.0.0 }
+          - {php: 8.3, laravel: 12.*, testbench: ^10.0.0, larastan: 3.*, testbenchc: 10.0.0 }
+          - {php: 8.4, laravel: 12.*, testbench: ^10.0.0, larastan: 3.*, testbenchc: 10.0.0 }
 
     name: PHP ${{ matrix.php-laravel-testbench.php }} - Laravel ${{ matrix.php-laravel-testbench.laravel }} - Testbench ${{ matrix.php-laravel-testbench.testbench }} - Larastan ${{ matrix.php-laravel-testbench.larastan }} - Testbench-core ${{ matrix.php-laravel-testbench.testbenchc }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
