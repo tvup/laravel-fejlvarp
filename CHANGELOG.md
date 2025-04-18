@@ -4,6 +4,14 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v11.1.9 - 2025-04-18
+
+### What's Changed
+
+* Add support for Laravel 12 in CI and documentation by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/57
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v11.1.8...v11.1.9
+
 ## v11.1.8 - 2025-02-01
 
 ### What's Changed
