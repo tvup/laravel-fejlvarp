@@ -42,10 +42,4 @@ class LaravelFejlvarpServiceProvider extends PackageServiceProvider
             });
     }
 
-    public function bootingPackage()
-    {
-        $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/fejlvarp'),
-        ], 'fejlvarp-public');
-    }
 }
