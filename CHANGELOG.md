@@ -4,6 +4,14 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v12.0.0 - 2025-04-22
+
+### What's Changed
+
+* Style tailwindscss by @tvup in https://github.com/tvup/laravel-fejlvarp/pull/58
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v11.1.9...v12.0.0
+
 ## v11.1.9 - 2025-04-18
 
 ### What's Changed
