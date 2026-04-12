@@ -4,6 +4,36 @@ All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
 683d0d6
 
+## v12.1.0 - 2026-04-12
+
+### What's Changed
+
+#### Added
+
+* **Laravel 13 support** — `laravel/framework ^13`, `orchestra/testbench ^11`, `pestphp/pest ^4`
+* CI test matrix for Laravel 13 with PHP 8.3, 8.4, and 8.5
+
+#### Removed
+
+* **Laravel 9 support** — EOL and blocked by Composer security advisories (PKSA-8qx3-n5y5-vvnd, PKSA-w7xr-vk7n-rstm)
+* **PHP 8.0 and 8.1 support** — EOL; minimum is now `^8.2`
+
+#### Fixed
+
+* PHPStan level 9 type errors in `Api\IncidentController` useragent method
+* PHPUnit 12 compatibility (`phpunit.xml.dist` updated)
+
+#### Supported versions
+
+| Laravel | PHP |
+|---------|-----|
+| 10.*    | 8.2, 8.3 |
+| 11.*    | 8.2, 8.3, 8.4 |
+| 12.*    | 8.2, 8.3, 8.4 |
+| 13.*    | 8.3, 8.4, 8.5 |
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v12.0.0...v12.1.0
+
 ## v12.0.0 - 2025-04-22
 
 ### What's Changed
