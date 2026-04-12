@@ -121,6 +121,7 @@ class IncidentController
         if ($useragentstringResponse->status() !== 200) {
             throw new \Exception('Content of ' . $url . ' couldn\'t be parsed as json');
         }
+        /** @var array<string, string> $data */
         $data = (array) json_decode($useragentstringResponse, true);
         $response = [];
         $response['name'] = $data['agent_name'];
