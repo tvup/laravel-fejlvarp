@@ -60,7 +60,7 @@ Default route to list of incidents will be http://your-url.top/incidents
 
 **Important! Make sure to protect this route with (admin) authentication**
 
-You can enjoy the convenience of letteing the package install itsleft
+You can enjoy the convenience of letting the package install itself.
 ```bash
 php artisan fejlvarp:install
 ```
@@ -114,7 +114,7 @@ Replace
 ```bash
 php artisan vendor:publish --tag=fejlvarp-provider
 ```
-remember to make sure that the serivce-provider is correctly installed
+Remember to make sure that the service-provider is correctly installed.
 
 You can have other applications report to the one you install it on, get inspiration from
 /src/Exceptions/LaravelFejlvarpExceptionHandler.php

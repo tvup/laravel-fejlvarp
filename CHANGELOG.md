@@ -2,8 +2,6 @@
 
 All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
-683d0d6
-
 ## v12.1.0 - 2026-04-12
 
 ### What's Changed
