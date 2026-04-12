@@ -33,7 +33,6 @@ This project supports a range of PHP and Laravel versions, tested across multipl
 
 | Laravel Version | PHP Versions         | Required `larastan/larastan` | Required `orchestra/testbench` | Required `orchestra/testbench-core` |
 |-----------------|----------------------|------------------------------|--------------------------------|-------------------------------------|
-| ^9.47           | 8.0.2, 8.1, 8.2, 8.3 | 2.4.0                        | 7.*                            | 7.*                                 |
 | 10.*            | 8.1, 8.2, 8.3        | 2.4.0                        | 8.*                            | 8.*                                 |
 | 11.*            | 8.2, 8.3, 8.4        | 3.*                          | ^9.1                           | 9.1.4                               |
 | 12.*            | 8.2, 8.3, 8.4        | 3.*                          | ^10.0                          | 10.0.0                              |

@@ -30,12 +30,12 @@
         }
     ],
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.1",
         "ext-mbstring": "*",
         "ext-pdo": "*",
         "ext-gd": "*",
         "ext-fileinfo": "*",
-        "laravel/framework": "^9.47|^10|^11|^12|^13",
+        "laravel/framework": "^10|^11|^12|^13",
         "nesbot/carbon": "^2|^3",
         "spatie/laravel-package-tools": "^1.16"
     },
@@ -44,12 +44,12 @@
         "friendsofphp/php-cs-fixer": "^3.35",
         "guzzlehttp/guzzle": "^7.0",
         "larastan/larastan": "^v2.4.0|^v3.0.2",
-        "nunomaduro/collision": "^6|^7|^8",
-        "orchestra/testbench": "^7|^8|^9.1|^10.0.0|^11.0.0",
-        "pestphp/pest": "^1.22.1|^2|^3|^4",
-        "pestphp/pest-plugin-laravel": "^1.4|^2|^3|^4",
+        "nunomaduro/collision": "^7|^8",
+        "orchestra/testbench": "^8|^9.1|^10.0.0|^11.0.0",
+        "pestphp/pest": "^2|^3|^4",
+        "pestphp/pest-plugin-laravel": "^2|^3|^4",
         "phpstan/phpstan-phpunit": "^1.3|^2.0",
-        "phpunit/phpunit": "^9|^10|^11|^12|^13"
+        "phpunit/phpunit": "^10|^11|^12|^13"
     },
     "autoload": {
         "psr-4": {
