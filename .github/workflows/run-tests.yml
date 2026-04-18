@@ -21,7 +21,6 @@ jobs:
           - {php: 8.2, laravel: 11.*, testbench: ^9.1, larastan: 3.*, testbenchc: 9.1.4}
           - {php: 8.3, laravel: 11.*, testbench: ^9.1, larastan: 3.*, testbenchc: 9.1.4}
           - {php: 8.4, laravel: 11.*, testbench: ^9.1, larastan: 3.*, testbenchc: 9.1.4}
-          - {php: 8.2, laravel: 12.*, testbench: ^10.0.0, larastan: 3.*, testbenchc: 10.0.0 }
           - {php: 8.3, laravel: 12.*, testbench: ^10.0.0, larastan: 3.*, testbenchc: 10.0.0 }
           - {php: 8.4, laravel: 12.*, testbench: ^10.0.0, larastan: 3.*, testbenchc: 10.0.0 }
           - {php: 8.3, laravel: 13.*, testbench: ^11.0.0, larastan: 3.*, testbenchc: 11.0.0}
