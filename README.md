@@ -33,9 +33,8 @@ This project supports a range of PHP and Laravel versions, tested across multipl
 
 | Laravel Version | PHP Versions         | Required `larastan/larastan` | Required `orchestra/testbench` | Required `orchestra/testbench-core` |
 |-----------------|----------------------|------------------------------|--------------------------------|-------------------------------------|
-| 10.*            | 8.2, 8.3             | 2.4.0                        | 8.*                            | 8.*                                 |
-| 11.*            | 8.2, 8.3, 8.4        | 3.*                          | ^9.1                           | 9.1.4                               |
-| 12.*            | 8.2, 8.3, 8.4        | 3.*                          | ^10.0                          | 10.0.0                              |
+| 11.*            | 8.3, 8.4             | 3.*                          | ^9.1                           | 9.1.4                               |
+| 12.*            | 8.3, 8.4             | 3.*                          | ^10.0                          | 10.0.0                              |
 | 13.*            | 8.3, 8.4, 8.5        | 3.*                          | ^11.0                          | 11.0.0                              |
 
 ### Operating Systems
@@ -123,7 +122,8 @@ $hash = config('app.name')
             . $exception->getMessage()
             . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile())
             . $exception->getLine();
-        $user = request()->user();
+        $isConsole = app()->runningInConsole();
+        $user = $isConsole ? null : request()->user();
 
         $data = [
             'hash' => md5($hash),
@@ -142,7 +142,7 @@ $hash = config('app.name')
                     'GET' => $_GET ?: null,
                     'POST' => $_POST ?: null,
                     'SERVER' => $_SERVER ?: null,
-                    'SESSION' => request()->hasSession() ? request()->session()->all() : null,
+                    'SESSION' => (!$isConsole && request()->hasSession()) ? request()->session()->all() : null,
                 ],
                 'application_data' => $user ? [
                     'user' => $user->toArray(),

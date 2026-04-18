@@ -54,7 +54,8 @@ class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
             . $exception->getMessage()
             . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile())
             . $exception->getLine();
-        $user = request()->user();
+        $isConsole = app()->runningInConsole();
+        $user = $isConsole ? null : request()->user();
 
         $data = [
             'hash' => md5($hash),
@@ -73,7 +74,7 @@ class LaravelFejlvarpExceptionHandler extends LaravelExceptionHandler
                     'GET' => $_GET ?: null,
                     'POST' => $_POST ?: null,
                     'SERVER' => $_SERVER ?: null,
-                    'SESSION' => request()->hasSession() ? request()->session()->all() : null,
+                    'SESSION' => (!$isConsole && request()->hasSession()) ? request()->session()->all() : null,
                 ],
                 'application_data' => $user ? [
                     'user' => $user->toArray(),
