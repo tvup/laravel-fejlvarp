@@ -53,7 +53,6 @@ jobs:
             composer require "laravel/framework:${{ matrix.php-laravel-testbench.laravel }}" --no-update || exit 1
             composer require "orchestra/testbench:${{ matrix.php-laravel-testbench.testbench }}" --dev --no-update || exit 1
             composer require "larastan/larastan:${{ matrix.php-laravel-testbench.larastan }}" --dev --no-update || exit 1
-            composer require "orchestra/testbench-core:${{ matrix.php-laravel-testbench.testbenchc }}" --dev --no-update || exit 1
             composer update --${{ matrix.stability }} --prefer-dist --no-interaction || exit 1
           }
         shell: pwsh
