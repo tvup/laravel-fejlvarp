@@ -123,7 +123,8 @@ $hash = config('app.name')
             . $exception->getMessage()
             . preg_replace('~revisions/[0-9]{14}/~', '--', $exception->getFile())
             . $exception->getLine();
-        $user = request()->user();
+        $isConsole = app()->runningInConsole();
+        $user = $isConsole ? null : request()->user();
 
         $data = [
             'hash' => md5($hash),
@@ -142,7 +143,7 @@ $hash = config('app.name')
                     'GET' => $_GET ?: null,
                     'POST' => $_POST ?: null,
                     'SERVER' => $_SERVER ?: null,
-                    'SESSION' => request()->hasSession() ? request()->session()->all() : null,
+                    'SESSION' => (!$isConsole && request()->hasSession()) ? request()->session()->all() : null,
                 ],
                 'application_data' => $user ? [
                     'user' => $user->toArray(),
