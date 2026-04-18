@@ -2,6 +2,30 @@
 
 All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
+## v12.1.1 - 2026-04-18
+
+### What's Changed
+
+#### Fixed
+
+* **CLI context crash in exception handler** — `request()` and `request()->hasSession()` were called unconditionally, causing exceptions in queue workers and artisan commands to never be logged. Now safely skipped in console context via `app()->runningInConsole()`. Closes #69
+
+#### Removed
+
+* **Laravel 10 support** — EOL February 2025; Orchestra Testbench 8.x requires PHPUnit 10/11 which are security-blocked (PKSA-5jz8-6tcw-pbk4, PKSA-z3gr-8qht-p93v)
+* **PHP 8.2 support** — PHPUnit 12.5.22+ (lowest non-blocked version) requires PHP 8.3
+* **Pest v2, PHPUnit ^10, Collision ^7** — security-blocked dev dependencies
+
+#### Supported versions
+
+| Laravel | PHP |
+|---------|-----|
+| 11.*    | 8.3, 8.4 |
+| 12.*    | 8.3, 8.4 |
+| 13.*    | 8.3, 8.4, 8.5 |
+
+**Full Changelog**: https://github.com/tvup/laravel-fejlvarp/compare/v12.1.0...v12.1.1
+
 ## v12.1.0 - 2026-04-12
 
 ### What's Changed
