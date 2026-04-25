@@ -193,7 +193,9 @@ class IncidentController
     private function notify_mail(string $title, string $msg, string $uri) : void
     {
         if (isset($this->mail_recipient) && $this->mail_recipient) {
-            mail($this->mail_recipient, $title, "An incident has occurred. Once you have resolved the issue, please visit the following link and mark it as such:\n\n" . $uri . "\n\n------------\n\n" . $msg);
+            $recipient = $this->mail_recipient;
+            assert(is_string($recipient));
+            mail($recipient, $title, "An incident has occurred. Once you have resolved the issue, please visit the following link and mark it as such:\n\n" . $uri . "\n\n------------\n\n" . $msg);
         }
     }
 
