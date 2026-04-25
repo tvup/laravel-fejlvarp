@@ -1,0 +1,256 @@
+name: Auto Release
+
+# Fully automated release pipeline driven by PR labels.
+#
+# Triggers:
+#   - schedule: every Monday at 06:00 UTC. Releases automatically if any
+#     release-worthy PRs were merged since the last tag.
+#   - workflow_dispatch: manual "Run workflow" button from the Actions UI.
+#     Lets the maintainer release on demand and optionally force a specific
+#     bump even when no PRs carry release-worthy labels.
+#
+# How auto mode classifies merged PRs (highest tier wins):
+#   - label `breaking-change` → major bump (12.1.1 → 13.0.0)
+#   - label `enhancement`     → minor bump (12.1.1 → 12.2.0)
+#   - label `bug`             → patch bump (12.1.1 → 12.1.2)
+#   - none of the above       → PR ignored
+#
+# Manual override (workflow_dispatch with bump=patch/minor/major) bumps the
+# version regardless of labels and lists ALL merged PRs since the last tag
+# in the CHANGELOG under a single "Changed" group.
+#
+# What it does:
+#   1. Find the last tag and its merge date.
+#   2. Fetch all merged PRs since that date via `gh pr list`.
+#   3. Classify each PR by label and pick the highest-tier bump.
+#   4. Skip cleanly if no PR carries a release-worthy label (auto mode only).
+#   5. Compute the new tag from last_tag + bump.
+#   6. Generate a CHANGELOG section grouped by label tier.
+#   7. Prepend the section to CHANGELOG.md and commit ([skip ci]).
+#   8. Tag the new version and push the tag.
+#   9. Create the GitHub Release using the same CHANGELOG section as body.
+#
+# Release creation is done inline (step 9) instead of being delegated to a
+# separate tag-triggered workflow. The reason: tag pushes made by a
+# workflow using a fine-grained PAT do not trigger downstream workflows
+# unless the PAT carries elevated scopes (Actions:write). Inlining sidesteps
+# that constraint entirely.
+#
+# Packagist auto-updates via the installed GitHub App webhook.
+#
+# Maintainer never touches CHANGELOG.md or `git tag` again — only PR labels.
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump (auto = derive from PR labels since last tag)'
+        required: true
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout master with full history
+        uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+          # RELEASE_TOKEN is a fine-grained PAT with Contents:write scope,
+          # required to bypass branch protection when pushing the CHANGELOG
+          # commit and the new tag to master. The default GITHUB_TOKEN
+          # cannot bypass `required_pull_request_reviews`.
+          token: ${{ secrets.RELEASE_TOKEN }}
+
+      - name: Configure git as github-actions[bot]
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Find last tag and its date
+        id: lasttag
+        run: |
+          set -euo pipefail
+          last_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo '')
+          if [ -n "$last_tag" ]; then
+            last_date=$(git log -1 --format=%cI "$last_tag")
+          else
+            last_date=$(git log --reverse --format=%cI | head -1)
+          fi
+          echo "last_tag=$last_tag" >> "$GITHUB_OUTPUT"
+          echo "last_date=$last_date" >> "$GITHUB_OUTPUT"
+          echo "::notice::Last tag: ${last_tag:-none} merged at $last_date"
+
+      - name: Fetch merged PRs since last tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh pr list \
+            --state merged \
+            --search "merged:>${{ steps.lasttag.outputs.last_date }}" \
+            --json number,title,labels,mergedAt \
+            --limit 200 > prs.json
+          count=$(jq 'length' prs.json)
+          echo "::notice::Found $count merged PR(s) since ${{ steps.lasttag.outputs.last_tag }}"
+
+      - name: Classify PRs and determine bump
+        id: classify
+        run: |
+          set -euo pipefail
+          bump_input='${{ inputs.bump || 'auto' }}'
+          last_tag='${{ steps.lasttag.outputs.last_tag }}'
+
+          if [ "$bump_input" = 'auto' ]; then
+            has_breaking=$(jq '[.[] | select(.labels[]?.name == "breaking-change")] | length' prs.json)
+            has_feat=$(jq '[.[] | select(.labels[]?.name == "enhancement")] | length' prs.json)
+            has_fix=$(jq '[.[] | select(.labels[]?.name == "bug")] | length' prs.json)
+
+            if   [ "$has_breaking" -gt 0 ]; then bump='major'
+            elif [ "$has_feat"     -gt 0 ]; then bump='minor'
+            elif [ "$has_fix"      -gt 0 ]; then bump='patch'
+            else                                 bump='none'
+            fi
+          else
+            bump="$bump_input"
+          fi
+
+          if [ "$bump" = 'none' ]; then
+            echo "::notice::No release-worthy PRs since ${last_tag:-the beginning}. Nothing to release."
+            echo 'skip=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          last_version=${last_tag#v}
+          IFS=. read -r maj min pat <<< "${last_version:-0.0.0}"
+          case "$bump" in
+            patch) new_tag="v$maj.$min.$((pat+1))";;
+            minor) new_tag="v$maj.$((min+1)).0";;
+            major) new_tag="v$((maj+1)).0.0";;
+          esac
+
+          echo "::notice::Releasing $new_tag (previous: ${last_tag:-none}, bump: $bump)"
+          echo 'skip=false' >> "$GITHUB_OUTPUT"
+          echo "new_tag=$new_tag" >> "$GITHUB_OUTPUT"
+          echo "bump=$bump" >> "$GITHUB_OUTPUT"
+
+      - name: Generate CHANGELOG section
+        if: steps.classify.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          new_tag='${{ steps.classify.outputs.new_tag }}'
+          today=$(date -u +%Y-%m-%d)
+          bump_input='${{ inputs.bump || 'auto' }}'
+
+          {
+            echo "## $new_tag - $today"
+            echo ''
+
+            if [ "$bump_input" = 'auto' ]; then
+              # Highest-tier label wins: a PR with both `breaking-change` and
+              # `bug` is grouped under Breaking, not Fixed.
+              breaking=$(jq -r '
+                [.[] | select([.labels[].name] | contains(["breaking-change"]))]
+                | sort_by(.number)
+                | .[] | "- " + .title + " (#" + (.number|tostring) + ")"
+              ' prs.json)
+              added=$(jq -r '
+                [.[] | select(
+                  ([.labels[].name] | contains(["enhancement"])) and
+                  ([.labels[].name] | contains(["breaking-change"]) | not)
+                )]
+                | sort_by(.number)
+                | .[] | "- " + .title + " (#" + (.number|tostring) + ")"
+              ' prs.json)
+              fixed=$(jq -r '
+                [.[] | select(
+                  ([.labels[].name] | contains(["bug"])) and
+                  ([.labels[].name] | contains(["enhancement"]) | not) and
+                  ([.labels[].name] | contains(["breaking-change"]) | not)
+                )]
+                | sort_by(.number)
+                | .[] | "- " + .title + " (#" + (.number|tostring) + ")"
+              ' prs.json)
+
+              if [ -n "$breaking" ]; then
+                echo '### Breaking'
+                echo "$breaking"
+                echo ''
+              fi
+              if [ -n "$added" ]; then
+                echo '### Added'
+                echo "$added"
+                echo ''
+              fi
+              if [ -n "$fixed" ]; then
+                echo '### Fixed'
+                echo "$fixed"
+                echo ''
+              fi
+            else
+              # Manual force-bump: list ALL merged PRs regardless of label.
+              echo '### Changed'
+              jq -r 'sort_by(.number) | .[] | "- " + .title + " (#" + (.number|tostring) + ")"' prs.json
+              echo ''
+            fi
+          } > CHANGELOG_DELTA.md
+
+      - name: Prepend new section to CHANGELOG.md
+        if: steps.classify.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          {
+            head -n 3 CHANGELOG.md
+            echo ''
+            cat CHANGELOG_DELTA.md
+            tail -n +4 CHANGELOG.md
+          } > CHANGELOG.new
+          mv CHANGELOG.new CHANGELOG.md
+          rm prs.json
+          # CHANGELOG_DELTA.md is kept — it becomes the GitHub Release body.
+
+      - name: Commit CHANGELOG and push tag
+        if: steps.classify.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          new_tag='${{ steps.classify.outputs.new_tag }}'
+          git add CHANGELOG.md
+          git commit -m "Release $new_tag [skip ci]"
+          git tag "$new_tag"
+          git push origin master
+          git push origin "$new_tag"
+
+      - name: Create GitHub Release
+        if: steps.classify.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          set -euo pipefail
+          new_tag='${{ steps.classify.outputs.new_tag }}'
+          # Strip the leading `## vX.Y.Z - YYYY-MM-DD` line from the delta —
+          # GitHub Release renders title separately so it would be a duplicate.
+          body=$(tail -n +2 CHANGELOG_DELTA.md)
+          prerelease_flag=''
+          if [[ "$new_tag" == *-* ]]; then
+            prerelease_flag='--prerelease'
+          fi
+          gh release create "$new_tag" \
+            --repo "${{ github.repository }}" \
+            --title "$new_tag" \
+            --notes "$body" \
+            $prerelease_flag
+          rm CHANGELOG_DELTA.md
