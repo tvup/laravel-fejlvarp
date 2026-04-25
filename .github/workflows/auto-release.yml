@@ -65,7 +65,11 @@ jobs:
         with:
           ref: master
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # RELEASE_TOKEN is a fine-grained PAT with Contents:write scope,
+          # required to bypass branch protection when pushing the CHANGELOG
+          # commit and the new tag to master. The default GITHUB_TOKEN
+          # cannot bypass `required_pull_request_reviews`.
+          token: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Configure git as github-actions[bot]
         run: |
