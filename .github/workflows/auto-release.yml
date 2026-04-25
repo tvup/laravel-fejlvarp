@@ -28,9 +28,14 @@ name: Auto Release
 #   6. Generate a CHANGELOG section grouped by label tier.
 #   7. Prepend the section to CHANGELOG.md and commit ([skip ci]).
 #   8. Tag the new version and push the tag.
+#   9. Create the GitHub Release using the same CHANGELOG section as body.
 #
-# The tag push then triggers release.yml which creates the actual GitHub
-# Release using the freshly written CHANGELOG section as the body.
+# Release creation is done inline (step 9) instead of being delegated to a
+# separate tag-triggered workflow. The reason: tag pushes made by a
+# workflow using a fine-grained PAT do not trigger downstream workflows
+# unless the PAT carries elevated scopes (Actions:write). Inlining sidesteps
+# that constraint entirely.
+#
 # Packagist auto-updates via the installed GitHub App webhook.
 #
 # Maintainer never touches CHANGELOG.md or `git tag` again — only PR labels.
@@ -215,7 +220,8 @@ jobs:
             tail -n +4 CHANGELOG.md
           } > CHANGELOG.new
           mv CHANGELOG.new CHANGELOG.md
-          rm CHANGELOG_DELTA.md prs.json
+          rm prs.json
+          # CHANGELOG_DELTA.md is kept — it becomes the GitHub Release body.
 
       - name: Commit CHANGELOG and push tag
         if: steps.classify.outputs.skip != 'true'
@@ -227,3 +233,24 @@ jobs:
           git tag "$new_tag"
           git push origin master
           git push origin "$new_tag"
+
+      - name: Create GitHub Release
+        if: steps.classify.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          set -euo pipefail
+          new_tag='${{ steps.classify.outputs.new_tag }}'
+          # Strip the leading `## vX.Y.Z - YYYY-MM-DD` line from the delta —
+          # GitHub Release renders title separately so it would be a duplicate.
+          body=$(tail -n +2 CHANGELOG_DELTA.md)
+          prerelease_flag=''
+          if [[ "$new_tag" == *-* ]]; then
+            prerelease_flag='--prerelease'
+          fi
+          gh release create "$new_tag" \
+            --repo "${{ github.repository }}" \
+            --title "$new_tag" \
+            --notes "$body" \
+            $prerelease_flag
+          rm CHANGELOG_DELTA.md
