@@ -2,6 +2,15 @@
 
 All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
+## v12.2.0 - 2026-04-25
+
+### Added
+- Fully automated label-driven release pipeline (#75) (#78)
+
+### Fixed
+- Fix auto-release: use RELEASE_TOKEN to bypass branch protection (#79)
+
+
 ## v12.1.1 - 2026-04-18
 
 ### What's Changed
