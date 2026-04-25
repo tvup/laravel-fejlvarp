@@ -4,7 +4,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 shadow-xl rounded-lg overflow-hidden">
-                <div class="p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-b border-gray-200 dark:border-gray-700">
+                <div class="p-6 lg:p-8 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                     <p class="mb-4">
                         <a href="{{ route('incidents.index') }}" class="flex items-center text-blue-600 hover:underline">
                             <span class="text-3xl font-bold leading-none mr-2">&larr;</span> List all incidents
@@ -20,7 +20,7 @@
                     </h1>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-900 bg-opacity-50 border border-gray-300 dark:border-gray-700 p-6 lg:p-8 grid grid-cols-1 gap-6">
+                <div class="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 p-6 lg:p-8 grid grid-cols-1 gap-6">
 
                     @if(!$incident->resolved_at)
                         <form method="POST" action="{{ route('incident.delete', ['hash' => $incident->hash]) }}">
