@@ -9,7 +9,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <link rel="stylesheet" href="{{ asset('vendor/fejlvarp/app.css') }}">
+        <link rel="stylesheet" href="{{ route('fejlvarp.assets.css') }}">
     </head>
     <body>
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
