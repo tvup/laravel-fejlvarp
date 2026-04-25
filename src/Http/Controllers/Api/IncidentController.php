@@ -100,10 +100,10 @@ class IncidentController
             case 'string':
                 break;
             case 'null':
-                throw new \Exception('IP wasn\'t provided in query');
+                throw new \Exception('User agent wasn\'t provided in query');
             case 'array':
             default:
-                throw new \Exception('IP wasn\'t provided in query is illegal. Type of input was: ' . gettype($useragent));
+                throw new \Exception('User agent provided in query is illegal. Type of input was: ' . gettype($useragent));
         }
         $callback = $request->query('callback');
         $url = 'http://www.useragentstring.com/?getJSON=all&uas=' . rawurlencode($useragent);
