@@ -2,6 +2,12 @@
 
 All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
+## v12.2.1 - 2026-04-25
+
+### Fixed
+- Inline GitHub Release creation in auto-release; remove release.yml (#80)
+
+
 ## v12.2.0 - 2026-04-25
 
 ### Added
