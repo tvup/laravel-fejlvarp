@@ -21,6 +21,8 @@ class IncidentController
 
     private mixed $ipStackAccessKey;
 
+    private mixed $mail_recipient;
+
     private string $server_name;
 
     public function __construct()
@@ -32,6 +34,7 @@ class IncidentController
         $this->pushover_userkey = config('fejlvarp.pushover.userkey');
         $this->slack_webhook_url = config('fejlvarp.slack.webhook_url');
         $this->ipStackAccessKey = config('fejlvarp.ipstack.access_key');
+        $this->mail_recipient = config('fejlvarp.mail_recipient');
     }
 
     public function store(IncidentStoreRequest $request) : Response
