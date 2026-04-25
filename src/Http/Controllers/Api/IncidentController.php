@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Tvup\LaravelFejlvarp\Http\Requests\IncidentStoreRequest;
 use Tvup\LaravelFejlvarp\Incident;
@@ -63,7 +64,10 @@ class IncidentController
             case 'null':
                 throw new \Exception('IP wasn\'t provided in query');
             default:
-                throw new \Exception('IP wasn\'t provided in query is illegal. Type of input was: ' . gettype($ip));
+                throw new \Exception('IP provided in query is illegal. Type of input was: ' . gettype($ip));
+        }
+        if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
+            throw new \Exception('IP provided in query is not a valid IP address: ' . $ip);
         }
         $callback = $request->query('callback');
 
@@ -89,7 +93,7 @@ class IncidentController
         ] : null;
 
         $content = !empty($response) ? json_encode($response) : null;
-        if (isset($callback) && gettype($callback) == 'string') {
+        if (isset($callback) && is_string($callback)) {
             return response($callback . '(' . ($content ?: '{}') . ');')->header('Content-Type', 'application/javascript');
         } else {
             return response($content ?: '{}')->header('Content-Type', 'application/javascript');
@@ -134,7 +138,7 @@ class IncidentController
         if ($content === false) {
             throw new \Exception('Content couldn\'t be encoded as json: ' . implode(', ', $response));
         }
-        if (isset($callback) && gettype($callback) == 'string') {
+        if (isset($callback) && is_string($callback)) {
             return response($callback . '(' . $content . ');')->header('Content-Type', 'application/javascript');
         } else {
             return response($content)->header('Content-Type', 'application/javascript');
@@ -210,7 +214,10 @@ class IncidentController
                 'url' => $uri,
                 'url_title' => 'See incident',
             ]);
-            curl_exec($curl);
+            if (curl_exec($curl) === false) {
+                Log::warning('Pushover notification failed: ' . curl_error($curl));
+            }
+            curl_close($curl);
         }
     }
 
@@ -227,7 +234,10 @@ class IncidentController
             curl_setopt($curl, CURLOPT_POSTFIELDS, [
                 'payload' => json_encode(['text' => $title . ' <' . $uri . '|See more>']),
             ]);
-            curl_exec($curl);
+            if (curl_exec($curl) === false) {
+                Log::warning('Slack notification failed: ' . curl_error($curl));
+            }
+            curl_close($curl);
         }
     }
 
@@ -241,7 +251,7 @@ class IncidentController
      */
     private function ip_in_range($ip, $range)
     {
-        if (strpos($range, '/') == false) {
+        if (strpos($range, '/') === false) {
             $range .= '/32';
         }
         // $range is in IP/CIDR format eg 127.0.0.1/24
