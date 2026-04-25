@@ -161,6 +161,25 @@ $hash = config('app.name')
         app()->handle($request);
 ``` 
 
+## Updating
+
+When upgrading the package via Composer:
+
+```bash
+composer update tvup/laravel-fejlvarp
+php artisan vendor:publish --tag="fejlvarp-assets" --force
+```
+
+### What happens automatically
+
+- **Database migrations** registered via `runsMigrations()` are detected by package discovery — new schema is applied next time `php artisan migrate` runs. No manual `vendor:publish --tag="fejlvarp-migrations"` needed unless you want a local copy to edit.
+
+### What you must re-run manually
+
+- **Assets**: re-run `php artisan vendor:publish --tag="fejlvarp-assets" --force` after every package update so the published `public/vendor/fejlvarp/app.css` matches the new package version. Skipping this step leaves stale CSS in place — the dashboard still loads but may render incorrectly. *(See [#73](https://github.com/tvup/laravel-fejlvarp/issues/73) for a planned change that removes this step.)*
+- **Views (only if you forked them)**: re-publish with `--force` to take new package changes — but this overwrites your local edits. Diff first: `php artisan vendor:publish --tag="fejlvarp-views"` writes to `resources/views/vendor/fejlvarp/`.
+- **Config (only if you customised it)**: the published `config/fejlvarp.php` is never overwritten without `--force`. New config keys added in package updates won't appear until you re-publish manually or merge them in by hand.
+
 ## Testing
 
 ```bash
