@@ -52,7 +52,7 @@ class Ago extends Component
         $periods = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year', 'decade'];
         $lengths = ['60', '60', '24', '7', '4.35', '12', '10'];
 
-        $difference = $now - strtotime($input);
+        $difference = $now - $input->getTimestamp();
         $tense = 'ago';
 
         for ($j = 0; $difference >= $lengths[$j] && $j < count($lengths) - 1; $j++) {
