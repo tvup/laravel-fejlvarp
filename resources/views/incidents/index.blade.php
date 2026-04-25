@@ -6,7 +6,7 @@
             <div class="bg-white dark:bg-gray-800 shadow-xl rounded-lg overflow-hidden">
                 <div class="p-6 lg:p-8 bg-white dark:bg-gray-800 dark:bg-gradient-to-bl dark:from-gray-700/50 dark:via-transparent border-b border-gray-200 dark:border-gray-700">
                     <h1 class="flex items-center space-x-2 text-2xl font-bold">
-                        <img src="{{ asset('vendor/fejlvarp/incidents.ico') }}" alt="Incidents" class="w-8 h-8">
+                        <img src="{{ route('fejlvarp.assets.favicon') }}" alt="Incidents" class="w-8 h-8">
                         <span>Incidents</span>
                     </h1>
                 </div>
