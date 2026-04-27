@@ -2,6 +2,17 @@
 
 All notable changes to `Laravel-Fejlvarp` will be documented in this file.
 
+## v12.3.0 - 2026-04-27
+
+### Added
+- Replace semi-transparent panel backgrounds with solid colors (#82)
+- Serve published assets via package routes (#84)
+
+### Fixed
+- Bug roundup in API controller and Ago component (#77)
+- Allow bot-authored PRs in Claude Code Review (#85)
+
+
 ## v12.2.1 - 2026-04-25
 
 ### Fixed
